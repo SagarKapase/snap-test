@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36203.30 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "snap-test", "snap-test\snap-test.csproj", "{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3CFAEC8D-7ACF-4B3B-9CD6-18AB323E0AA6}
+	EndGlobalSection
+EndGlobal

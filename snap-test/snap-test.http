@@ -1,0 +1,6 @@
+@snap_test_HostAddress = http://localhost:5251
+
+GET {{snap_test_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
