@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "oBoeVmJg4Ck=",
+  "dgSpecHash": "LxXGRja9/hU=",
   "success": true,
   "projectFilePath": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\snap-test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sagar.kapase\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.6\\microsoft.aspnetcore.openapi.9.0.6.nupkg.sha512",
-    "C:\\Users\\sagar.kapase\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+    "C:\\Users\\sagar.kapase\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512",
+    "C:\\Users\\sagar.kapase\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.22.1\\microsoft.visualstudio.azure.containers.tools.targets.1.22.1.nupkg.sha512"
   ],
   "logs": []
 }

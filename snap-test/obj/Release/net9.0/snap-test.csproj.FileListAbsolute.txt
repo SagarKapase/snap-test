@@ -31,3 +31,4 @@ D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Release\net9.0\refint\snap-tes
 D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Release\net9.0\snap-test.pdb
 D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Release\net9.0\snap-test.genruntimeconfig.cache
 D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Release\net9.0\ref\snap-test.dll
+D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Release\net9.0\snap-test.sourcelink.json
