@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("snap-test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d6abeebfcd6f03713b7a47e9ce5992ef94c6ede7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a454b863b98bda70a3c5b8979aa2841a5d2fa635")]
 [assembly: System.Reflection.AssemblyProductAttribute("snap-test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("snap-test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
