@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("dfd8ce6a-65a0-4225-84f4-76cfd15962f4")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("snap-test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cf4018bf6ca5a653f38c838cc392e9094306e697")]
 [assembly: System.Reflection.AssemblyProductAttribute("snap-test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("snap-test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

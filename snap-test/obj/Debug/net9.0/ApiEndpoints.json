@@ -1,5 +1,15 @@
 [
   {
+    "ContainingType": "snap_test.Controllers.AdminController",
+    "Method": "AdminEndPoint",
+    "RelativePath": "api/Admin/authorize",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "snap_test.Controllers.UserController",
     "Method": "Create",
     "RelativePath": "api/User/addUser",
@@ -39,6 +49,22 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "snap_test.Controllers.UserController",
+    "Method": "Login",
+    "RelativePath": "api/User/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userLogin",
+        "Type": "snap_test.Models.UserLogin",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {

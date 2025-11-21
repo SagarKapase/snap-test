@@ -31,3 +31,12 @@ D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Debug\net9.0\refint\snap-test.
 D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Debug\net9.0\snap-test.pdb
 D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Debug\net9.0\snap-test.genruntimeconfig.cache
 D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Debug\net9.0\ref\snap-test.dll
+D:\Projects\ASP .NET Core\snap-test\snap-test\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Projects\ASP .NET Core\snap-test\snap-test\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Projects\ASP .NET Core\snap-test\snap-test\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Projects\ASP .NET Core\snap-test\snap-test\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+D:\Projects\ASP .NET Core\snap-test\snap-test\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+D:\Projects\ASP .NET Core\snap-test\snap-test\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Projects\ASP .NET Core\snap-test\snap-test\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+D:\Projects\ASP .NET Core\snap-test\snap-test\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Debug\net9.0\snap-test.sourcelink.json

@@ -3,28 +3,52 @@
   "WorkspaceRootPath": "D:\\Projects\\ASP .NET Core\\snap-test\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\models\\userconstants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\models\\userconstants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\models\\userlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\models\\userlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\models\\userauth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\models\\userauth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\snap-test.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\snap-test.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|d:\\projects\\asp .net core\\snap-test\\snap-test\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E2E66C5-9CE1-475C-ACF0-3ED68745043D}|snap-test\\snap-test.csproj|solutionrelative:snap-test\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +58,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,32 +66,108 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "snap-test\\Controllers\\AdminController.cs",
+              "ToolTip": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "snap-test\\Controllers\\AdminController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T10:17:09.909Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Dockerfile",
-              "DocumentMoniker": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Dockerfile",
-              "RelativeDocumentMoniker": "snap-test\\Dockerfile",
-              "ToolTip": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Dockerfile",
-              "RelativeToolTip": "snap-test\\Dockerfile",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-11-20T05:17:47.529Z",
+              "Title": "UserConstants.cs",
+              "DocumentMoniker": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Models\\UserConstants.cs",
+              "RelativeDocumentMoniker": "snap-test\\Models\\UserConstants.cs",
+              "ToolTip": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Models\\UserConstants.cs",
+              "RelativeToolTip": "snap-test\\Models\\UserConstants.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T09:34:29.167Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "UserLogin.cs",
+              "DocumentMoniker": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Models\\UserLogin.cs",
+              "RelativeDocumentMoniker": "snap-test\\Models\\UserLogin.cs",
+              "ToolTip": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Models\\UserLogin.cs",
+              "RelativeToolTip": "snap-test\\Models\\UserLogin.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T09:29:58.946Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserAuth.cs",
+              "DocumentMoniker": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Models\\UserAuth.cs",
+              "RelativeDocumentMoniker": "snap-test\\Models\\UserAuth.cs",
+              "ToolTip": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Models\\UserAuth.cs",
+              "RelativeToolTip": "snap-test\\Models\\UserAuth.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T09:29:21.823Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "snap-test",
+              "DocumentMoniker": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\snap-test.csproj",
+              "RelativeDocumentMoniker": "snap-test\\snap-test.csproj",
+              "ToolTip": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\snap-test.csproj",
+              "RelativeToolTip": "snap-test\\snap-test.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-20T09:23:18.163Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\appsettings.json",
+              "RelativeDocumentMoniker": "snap-test\\appsettings.json",
+              "ToolTip": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\appsettings.json",
+              "RelativeToolTip": "snap-test\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-20T09:21:27.296Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Dockerfile",
+              "RelativeDocumentMoniker": "snap-test\\Dockerfile",
+              "ToolTip": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Dockerfile",
+              "RelativeToolTip": "snap-test\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-11-20T05:17:47.529Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "launchSettings.json",
               "DocumentMoniker": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "snap-test\\Properties\\launchSettings.json",
               "ToolTip": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Properties\\launchSettings.json",
               "RelativeToolTip": "snap-test\\Properties\\launchSettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-11-19T04:10:46.507Z"
+              "WhenOpened": "2025-11-19T04:10:46.507Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "User.cs",
               "DocumentMoniker": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Models\\User.cs",
               "RelativeDocumentMoniker": "snap-test\\Models\\User.cs",
@@ -75,7 +175,8 @@
               "RelativeToolTip": "snap-test\\Models\\User.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T03:57:22.56Z"
+              "WhenOpened": "2025-11-19T03:57:22.56Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -85,26 +186,27 @@
               "RelativeDocumentMoniker": "snap-test\\Controllers\\UserController.cs",
               "ToolTip": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Controllers\\UserController.cs",
               "RelativeToolTip": "snap-test\\Controllers\\UserController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAB+AAAAAAAAAA==",
+              "ViewState": "AgIAABQAAAAAAAAAAAAkwCEAAABIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-19T03:56:25.355Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Program.cs",
               "RelativeDocumentMoniker": "snap-test\\Program.cs",
               "ToolTip": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Program.cs",
               "RelativeToolTip": "snap-test\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T03:53:47.445Z"
+              "WhenOpened": "2025-11-19T03:53:47.445Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 11,
               "Title": "WeatherForecastController.cs",
               "DocumentMoniker": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\Controllers\\WeatherForecastController.cs",
               "RelativeDocumentMoniker": "snap-test\\Controllers\\WeatherForecastController.cs",
