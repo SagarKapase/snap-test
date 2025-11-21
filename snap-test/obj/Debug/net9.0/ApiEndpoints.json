@@ -105,6 +105,85 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "UserXMLController",
+    "Method": "GetById",
+    "RelativePath": "api/xml/UserXML/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UserXMLController",
+    "Method": "GetAll",
+    "RelativePath": "api/xml/UserXML/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UserXMLController",
+    "Method": "Create",
+    "RelativePath": "api/xml/UserXML/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "snap_test.Models.UserXmlRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UserXMLController",
+    "Method": "Delete",
+    "RelativePath": "api/xml/UserXML/delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UserXMLController",
+    "Method": "Update",
+    "RelativePath": "api/xml/UserXML/update/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "snap_test.Models.UserXmlRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "snap_test.Controllers.WeatherForecastController",
     "Method": "Get",
     "RelativePath": "WeatherForecast",
@@ -118,7 +197,9 @@
         "MediaTypes": [
           "text/plain",
           "application/json",
-          "text/json"
+          "text/json",
+          "application/xml",
+          "text/xml"
         ],
         "StatusCode": 200
       }
