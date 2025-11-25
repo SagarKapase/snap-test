@@ -10,6 +10,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "snap_test.Controllers.ProxyController",
+    "Method": "Execute",
+    "RelativePath": "api/Proxy/call",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "data",
+        "Type": "snap_test.ApiExecution.ApiRequestData",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "snap_test.Controllers.UserController",
     "Method": "Create",
     "RelativePath": "api/User/addUser",

@@ -24,7 +24,6 @@ D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Debug\net9.0\staticwebassets.b
 D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Debug\net9.0\staticwebassets.build.json.cache
 D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Debug\net9.0\staticwebassets.development.json
 D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Debug\net9.0\snap-test.csproj.Up2Date
 D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Debug\net9.0\snap-test.dll
 D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Debug\net9.0\refint\snap-test.dll
@@ -81,3 +80,5 @@ D:\Projects\ASP .NET Core\snap-test\snap-test\bin\Debug\net9.0\HotChocolate.Util
 D:\Projects\ASP .NET Core\snap-test\snap-test\bin\Debug\net9.0\HotChocolate.Validation.dll
 D:\Projects\ASP .NET Core\snap-test\snap-test\bin\Debug\net9.0\System.IO.Hashing.dll
 D:\Projects\ASP .NET Core\snap-test\snap-test\bin\Debug\net9.0\Yarp.ReverseProxy.dll
+D:\Projects\ASP .NET Core\snap-test\snap-test\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+D:\Projects\ASP .NET Core\snap-test\snap-test\bin\Debug\net9.0\Newtonsoft.Json.dll
