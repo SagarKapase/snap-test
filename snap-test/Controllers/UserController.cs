@@ -31,16 +31,16 @@ namespace snap_test.Controllers
         //};
         private static List<User> users = new List<User>
         {
-            new User { UserId = Guid.NewGuid(), Name = "Michael Thompson", Email = "michael.thompson@company.com", Job = "Senior Software Engineer", City = "New York" },
-            new User { UserId = Guid.NewGuid(), Name = "Emma Johnson", Email = "emma.johnson@company.com", Job = "Product Manager", City = "San Francisco" },
-            new User { UserId = Guid.NewGuid(), Name = "Liam Brown", Email = "liam.brown@company.com", Job = "DevOps Engineer", City = "Toronto" },
-            new User { UserId = Guid.NewGuid(), Name = "Olivia Martinez", Email = "olivia.martinez@company.com", Job = "UI/UX Designer", City = "Barcelona" },
-            new User { UserId = Guid.NewGuid(), Name = "Noah Wilson", Email = "noah.wilson@company.com", Job = "Backend Developer", City = "London" },
-            new User { UserId = Guid.NewGuid(), Name = "Sophia Miller", Email = "sophia.miller@company.com", Job = "Quality Assurance Engineer", City = "Berlin" },
-            new User { UserId = Guid.NewGuid(), Name = "James Anderson", Email = "james.anderson@company.com", Job = "Cloud Architect", City = "Seattle" },
-            new User { UserId = Guid.NewGuid(), Name = "Ava Davis", Email = "ava.davis@company.com", Job = "Data Analyst", City = "Sydney" },
-            new User { UserId = Guid.NewGuid(), Name = "Benjamin Harris", Email = "benjamin.harris@company.com", Job = "Cybersecurity Specialist", City = "Amsterdam" },
-            new User { UserId = Guid.NewGuid(), Name = "Mia Robinson", Email = "mia.robinson@company.com", Job = "Business Analyst", City = "Dublin" }
+            new User { UserId = 101, Name = "Michael Thompson", Email = "michael.thompson@company.com", Job = "Senior Software Engineer", City = "New York" },
+            new User { UserId = 102, Name = "Emma Johnson", Email = "emma.johnson@company.com", Job = "Product Manager", City = "San Francisco" },
+            new User { UserId = 103, Name = "Liam Brown", Email = "liam.brown@company.com", Job = "DevOps Engineer", City = "Toronto" },
+            new User { UserId = 104, Name = "Olivia Martinez", Email = "olivia.martinez@company.com", Job = "UI/UX Designer", City = "Barcelona" },
+            new User { UserId = 105, Name = "Noah Wilson", Email = "noah.wilson@company.com", Job = "Backend Developer", City = "London" },
+            new User { UserId = 106, Name = "Sophia Miller", Email = "sophia.miller@company.com", Job = "Quality Assurance Engineer", City = "Berlin" },
+            new User { UserId = 107, Name = "James Anderson", Email = "james.anderson@company.com", Job = "Cloud Architect", City = "Seattle" },
+            new User { UserId = 108, Name = "Ava Davis", Email = "ava.davis@company.com", Job = "Data Analyst", City = "Sydney" },
+            new User { UserId = 109, Name = "Benjamin Harris", Email = "benjamin.harris@company.com", Job = "Cybersecurity Specialist", City = "Amsterdam" },
+            new User { UserId = 110, Name = "Mia Robinson", Email = "mia.robinson@company.com", Job = "Business Analyst", City = "Dublin" }
         };
 
         // -------------------- GET ALL --------------------
@@ -59,7 +59,7 @@ namespace snap_test.Controllers
 
         // -------------------- GET BY ID --------------------
         [HttpGet("user/{id}")]
-        public IActionResult GetById(Guid id)
+        public IActionResult GetById(int id)
         {
             try
             {
@@ -82,7 +82,9 @@ namespace snap_test.Controllers
         {
             try
             {
-                newUser.UserId = Guid.NewGuid();
+                // Generate random 6-digit user ID
+                Random rnd = new Random();
+                newUser.UserId = rnd.Next(100, 999);
                 users.Add(newUser);
 
                 return StatusCode(201, new
@@ -99,7 +101,7 @@ namespace snap_test.Controllers
 
         // -------------------- UPDATE --------------------
         [HttpPut("update/{id}")]
-        public IActionResult Update(Guid id, [FromBody] User updatedUser)
+        public IActionResult Update(int id, [FromBody] User updatedUser)
         {
             try
             {
@@ -127,7 +129,7 @@ namespace snap_test.Controllers
 
         // -------------------- DELETE --------------------
         [HttpDelete("delete/{id}")]
-        public IActionResult Delete(Guid id)
+        public IActionResult Delete(int id)
         {
             try
             {
