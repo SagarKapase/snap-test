@@ -2917,23 +2917,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\sagar.kapase\\.nuget\\packages\\": {},
+    "C:\\Users\\sagar\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\snap-test.csproj",
+      "projectUniqueName": "C:\\Users\\sagar\\Downloads\\snap-test\\snap-test\\snap-test.csproj",
       "projectName": "snap-test",
-      "projectPath": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\snap-test.csproj",
-      "packagesPath": "C:\\Users\\sagar.kapase\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\ASP .NET Core\\snap-test\\snap-test\\obj\\",
+      "projectPath": "C:\\Users\\sagar\\Downloads\\snap-test\\snap-test\\snap-test.csproj",
+      "packagesPath": "C:\\Users\\sagar\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\sagar\\Downloads\\snap-test\\snap-test\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\sagar.kapase\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\sagar\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3020,7 +3020,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
