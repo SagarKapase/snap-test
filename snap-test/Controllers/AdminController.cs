@@ -6,11 +6,23 @@ using System.Security.Claims;
 
 namespace snap_test.Controllers
 {
+    /// <summary>
+    /// Admin: an endpoint protected by a JWT with the Admin role.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
     {
         //For admin Only
+        /// <summary>Greet an authenticated admin.</summary>
+        /// <remarks>
+        /// Get a token from <c>POST /api/User/Login</c> (<c>Michael</c> / <c>Thompson</c>) and send
+        /// <c>Authorization: Bearer &lt;token&gt;</c>. The role check is case-sensitive: tokens from
+        /// <c>POST /api/auth/jwt/login</c> carry the lowercase role admin and get 403 here.
+        /// </remarks>
+        /// <response code="200">Greeting text.</response>
+        /// <response code="401">Token missing, invalid or expired.</response>
+        /// <response code="403">Valid token without the Admin role.</response>
         [HttpGet("authorize")]
         [Authorize(Roles = "Admin")]
         public IActionResult AdminEndPoint()

@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using snap_test.GraphQL;
 using snap_test.Middleware;
+using snap_test.Swagger;
 using System.Text;
+using System.Text.Encodings.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddControllers()
-    .AddXmlSerializerFormatters();
+    .AddXmlSerializerFormatters()
+    // Emit emoji / non-Latin text as-is instead of \uXXXX escapes (still valid JSON).
+    .AddJsonOptions(o =>
+    {
+        o.JsonSerializerOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
+        // Echo-style endpoints wrap deeply nested client input one or two levels deeper; the default of 32 is too low.
+        o.JsonSerializerOptions.MaxDepth = 256;
+    });
 
 // APIBee: permissive CORS for a public, no-signup API. Exposes pagination + simulation headers.
 builder.Services.AddCors(options =>
@@ -19,10 +28,13 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin()
               .AllowAnyMethod()
               .AllowAnyHeader()
-              .WithExposedHeaders("X-Total-Count", "X-Page", "X-Per-Page", "X-Total-Pages", "X-Simulated"));
+              .WithExposedHeaders("X-Total-Count", "X-Page", "X-Per-Page", "X-Total-Pages", "X-Simulated",
+                                  "ETag", "Last-Modified", "Location", "Link", "Retry-After", "Content-Disposition",
+                                  "X-RateLimit-Limit", "X-RateLimit-Remaining", "X-RateLimit-Reset",
+                                  "Idempotent-Replayed", "X-Request-Id", "Deprecation", "Sunset", "X-API-Version"));
 });
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Swagger / OpenAPI: document at /openapi/v1.json, UI at /swagger (see Swagger/SwaggerSetup.cs).
+builder.Services.AddApiBeeSwagger();
 builder.Services.AddHttpClient();
 builder.Services
     .AddGraphQLServer()
@@ -44,10 +56,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+// Docs are public in every environment: APIBee is a public test API and the docs are part of the product.
+app.UseApiBeeSwagger();
 app.MapGraphQL("/graphql");
 
 app.UseHttpsRedirection();
@@ -66,6 +76,9 @@ app.Use(async (context, next) =>
 
 // APIBee: ?delay= / ?error= simulation (must run before controllers).
 app.UseMiddleware<SimulationMiddleware>();
+
+// WebSocket test endpoints (/ws/echo, /ws/ticker).
+app.UseWebSockets(new WebSocketOptions { KeepAliveInterval = TimeSpan.FromSeconds(30) });
 
 app.UseAuthentication();
 app.UseAuthorization();

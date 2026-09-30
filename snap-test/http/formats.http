@@ -1,0 +1,195 @@
+@host = http://localhost:5251
+
+### ==================== FORMATS ====================
+GET {{host}}/api/formats
+
+###
+GET {{host}}/api/formats/json
+
+###
+GET {{host}}/api/formats/xml
+
+###
+GET {{host}}/api/formats/html
+
+###
+GET {{host}}/api/formats/text
+
+###
+GET {{host}}/api/formats/csv
+
+###
+GET {{host}}/api/formats/tsv
+
+###
+GET {{host}}/api/formats/yaml
+
+###
+GET {{host}}/api/formats/markdown
+
+###
+GET {{host}}/api/formats/svg
+
+###
+GET {{host}}/api/formats/png?size=256&pattern=checkerboard
+
+###
+GET {{host}}/api/formats/gif
+
+###
+GET {{host}}/api/formats/pdf
+
+###
+GET {{host}}/api/formats/javascript
+
+###
+GET {{host}}/api/formats/css
+
+###
+GET {{host}}/api/formats/rss
+
+###
+GET {{host}}/api/formats/atom
+
+###
+GET {{host}}/api/formats/ical
+
+###
+GET {{host}}/api/formats/jsonp?callback=handleData
+
+### Content negotiation — try application/xml, text/html, text/plain, text/csv, image/png (406)
+GET {{host}}/api/formats/negotiate
+Accept: application/xml
+
+###
+GET {{host}}/api/formats/gzip
+
+###
+GET {{host}}/api/formats/deflate
+
+###
+GET {{host}}/api/formats/brotli
+
+###
+GET {{host}}/api/formats/empty
+
+###
+GET {{host}}/api/formats/no-content
+
+###
+GET {{host}}/api/formats/malformed-json
+
+###
+GET {{host}}/api/formats/wrong-content-type
+
+###
+GET {{host}}/api/formats/bom
+
+###
+GET {{host}}/api/formats/charset/latin1
+
+###
+GET {{host}}/api/formats/charset/utf16
+
+### ==================== FILES ====================
+GET {{host}}/api/files
+
+###
+GET {{host}}/api/files/sample.pdf
+
+###
+GET {{host}}/api/files/sample.zip
+
+###
+GET {{host}}/api/files/sample.png/inline
+
+###
+GET {{host}}/api/files/bytes/1024?seed=7
+
+### Range request -> 206 Partial Content
+GET {{host}}/api/files/range/1000
+Range: bytes=100-199
+
+###
+GET {{host}}/api/files/large?mb=5
+
+### ==================== EDGE CASES ====================
+GET {{host}}/api/edge-cases
+
+###
+GET {{host}}/api/edge-cases/types
+
+###
+GET {{host}}/api/edge-cases/numbers
+
+###
+GET {{host}}/api/edge-cases/strings
+
+###
+GET {{host}}/api/edge-cases/dates
+
+###
+GET {{host}}/api/edge-cases/nulls
+
+###
+GET {{host}}/api/edge-cases/empty-object
+
+###
+GET {{host}}/api/edge-cases/empty-array
+
+###
+GET {{host}}/api/edge-cases/mixed-array
+
+###
+GET {{host}}/api/edge-cases/special-keys
+
+###
+GET {{host}}/api/edge-cases/duplicate-keys
+
+###
+GET {{host}}/api/edge-cases/deep?depth=100
+
+###
+GET {{host}}/api/edge-cases/wide?keys=1000
+
+###
+GET {{host}}/api/edge-cases/large-array?count=1000
+
+###
+GET {{host}}/api/edge-cases/top-level/string
+
+### ==================== UTILS ====================
+GET {{host}}/api/utils/uuid?count=5&version=7
+
+###
+GET {{host}}/api/utils/time?tz=Asia/Kolkata
+
+###
+GET {{host}}/api/utils/base64/encode?text=hello%20bee&urlSafe=true
+
+###
+GET {{host}}/api/utils/base64/decode?value=aGVsbG8gYmVl
+
+###
+GET {{host}}/api/utils/hash?text=hello&algorithm=sha256
+
+###
+GET {{host}}/api/utils/hmac?text=hello&key=secret&algorithm=sha256
+
+###
+GET {{host}}/api/utils/random/number?min=1&max=6&count=10&seed=42
+
+###
+GET {{host}}/api/utils/random/string?length=32&charset=hex
+
+###
+GET {{host}}/api/utils/lorem?paragraphs=2&format=text
+
+###
+GET {{host}}/api/utils/url/encode?text=a b&c=d/é
+
+###
+GET {{host}}/api/utils/url/decode?value=a%20b%26c%3Dd
+
+###
+GET {{host}}/api/utils/jwt/decode?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c

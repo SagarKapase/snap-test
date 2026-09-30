@@ -5,11 +5,21 @@ using snap_test.Models;
 
 namespace snap_test.Controllers
 {
+    /// <summary>Shopping carts whose items reference real product IDs. Hardcoded in-memory data: writes last until the app restarts.</summary>
     [ApiController]
     [Route("api/[controller]")]
     public class CartsController : ControllerBase
     {
         // -------------------- GET ALL (filter ?userId=, pagination / sort) --------------------
+        /// <summary>List carts with filtering, sorting, search and pagination.</summary>
+        /// <remarks>
+        /// Common filters: `userId`. Any other property name also works as an exact, case-insensitive filter.
+        /// Paging and sorting: `limit` (1-100), `page` (1-based, needs `limit`), `offset`, `sort` (property name),
+        /// `order` (`asc` or `desc`) and `q` (search across title, name, body, description and text fields).
+        /// Totals are returned in the X-Total-Count, X-Page, X-Per-Page and X-Total-Pages headers.
+        /// </remarks>
+        /// <response code="200">The matching carts.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -32,6 +42,11 @@ namespace snap_test.Controllers
         }
 
         // -------------------- GET BY ID --------------------
+        /// <summary>Get a cart by ID.</summary>
+        /// <param name="id">Cart ID.</param>
+        /// <response code="200">The cart.</response>
+        /// <response code="404">The cart does not exist.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
@@ -51,6 +66,11 @@ namespace snap_test.Controllers
         }
 
         // -------------------- CREATE --------------------
+        /// <summary>Create a cart.</summary>
+        /// <param name="newCart">The new cart. Any client-supplied ID is replaced.</param>
+        /// <response code="201">Created; returns { message, data } with the generated ID.</response>
+        /// <response code="400">The request body is missing.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpPost]
         public IActionResult Create([FromBody] Cart newCart)
         {
@@ -79,6 +99,13 @@ namespace snap_test.Controllers
         }
 
         // -------------------- UPDATE (add/remove items) --------------------
+        /// <summary>Update a cart.</summary>
+        /// <remarks>Use this to add or remove items.</remarks>
+        /// <param name="id">Cart ID.</param>
+        /// <param name="updatedCart">The new field values.</param>
+        /// <response code="200">Updated; returns { message, data }.</response>
+        /// <response code="404">The cart does not exist.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpPut("{id:int}")]
         public IActionResult Update(int id, [FromBody] Cart updatedCart)
         {
@@ -107,6 +134,11 @@ namespace snap_test.Controllers
         }
 
         // -------------------- DELETE --------------------
+        /// <summary>Delete a cart.</summary>
+        /// <param name="id">Cart ID.</param>
+        /// <response code="200">Deleted.</response>
+        /// <response code="404">The cart does not exist.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {

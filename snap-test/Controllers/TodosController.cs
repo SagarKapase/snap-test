@@ -5,11 +5,21 @@ using snap_test.Models;
 
 namespace snap_test.Controllers
 {
+    /// <summary>To-do items with priority, due date and completion state. Shared with the GraphQL todo mutations. Hardcoded in-memory data: writes last until the app restarts.</summary>
     [ApiController]
     [Route("api/[controller]")]
     public class TodosController : ControllerBase
     {
         // -------------------- GET ALL (filters ?completed= ?priority= ?userId=, pagination / sort / search) --------------------
+        /// <summary>List todos with filtering, sorting, search and pagination.</summary>
+        /// <remarks>
+        /// Common filters: `completed`, `priority`, `userId`. Any other property name also works as an exact, case-insensitive filter.
+        /// Paging and sorting: `limit` (1-100), `page` (1-based, needs `limit`), `offset`, `sort` (property name),
+        /// `order` (`asc` or `desc`) and `q` (search across title, name, body, description and text fields).
+        /// Totals are returned in the X-Total-Count, X-Page, X-Per-Page and X-Total-Pages headers.
+        /// </remarks>
+        /// <response code="200">The matching todos.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -32,6 +42,11 @@ namespace snap_test.Controllers
         }
 
         // -------------------- GET BY ID --------------------
+        /// <summary>Get a todo by ID.</summary>
+        /// <param name="id">Todo ID.</param>
+        /// <response code="200">The todo.</response>
+        /// <response code="404">The todo does not exist.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
@@ -51,6 +66,11 @@ namespace snap_test.Controllers
         }
 
         // -------------------- CREATE --------------------
+        /// <summary>Create a todo.</summary>
+        /// <param name="newTodo">The new todo. Any client-supplied ID is replaced.</param>
+        /// <response code="201">Created; returns { message, data } with the generated ID.</response>
+        /// <response code="400">title is missing.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpPost]
         public IActionResult Create([FromBody] Todo newTodo)
         {
@@ -79,6 +99,12 @@ namespace snap_test.Controllers
         }
 
         // -------------------- UPDATE --------------------
+        /// <summary>Update a todo.</summary>
+        /// <param name="id">Todo ID.</param>
+        /// <param name="updatedTodo">The new field values.</param>
+        /// <response code="200">Updated; returns { message, data }.</response>
+        /// <response code="404">The todo does not exist.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpPut("{id:int}")]
         public IActionResult Update(int id, [FromBody] Todo updatedTodo)
         {
@@ -108,6 +134,11 @@ namespace snap_test.Controllers
         }
 
         // -------------------- DELETE --------------------
+        /// <summary>Delete a todo.</summary>
+        /// <param name="id">Todo ID.</param>
+        /// <response code="200">Deleted.</response>
+        /// <response code="404">The todo does not exist.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {

@@ -8,6 +8,9 @@ using System.Text;
 
 namespace snap_test.Controllers
 {
+    /// <summary>
+    /// Users: the original JSON CRUD over 10 hardcoded users (IDs 101-110), plus the JWT login used by the Admin endpoint.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -44,6 +47,8 @@ namespace snap_test.Controllers
         };
 
         // -------------------- GET ALL --------------------
+        /// <summary>List all users.</summary>
+        /// <response code="200">All users.</response>
         [HttpGet("getAllUsers")]
         public IActionResult GetAll()
         {
@@ -58,6 +63,10 @@ namespace snap_test.Controllers
         }
 
         // -------------------- GET BY ID --------------------
+        /// <summary>Get a user by ID.</summary>
+        /// <param name="id">User ID (101-110 for the seed users).</param>
+        /// <response code="200">The user.</response>
+        /// <response code="404">No user with that ID.</response>
         [HttpGet("user/{id}")]
         public IActionResult GetById(int id)
         {
@@ -77,6 +86,9 @@ namespace snap_test.Controllers
         }
 
         // -------------------- CREATE --------------------
+        /// <summary>Add a user.</summary>
+        /// <param name="newUser">The user to add. Its userId is ignored and replaced with a random ID.</param>
+        /// <response code="201">User created.</response>
         [HttpPost("addUser")]
         public IActionResult Create([FromBody] User newUser)
         {
@@ -100,6 +112,11 @@ namespace snap_test.Controllers
         }
 
         // -------------------- UPDATE --------------------
+        /// <summary>Update a user's name, email, job and city.</summary>
+        /// <param name="id">User ID.</param>
+        /// <param name="updatedUser">New name, email, job and city.</param>
+        /// <response code="200">User updated.</response>
+        /// <response code="404">No user with that ID.</response>
         [HttpPut("update/{id}")]
         public IActionResult Update(int id, [FromBody] User updatedUser)
         {
@@ -128,6 +145,10 @@ namespace snap_test.Controllers
         }
 
         // -------------------- DELETE --------------------
+        /// <summary>Delete a user.</summary>
+        /// <param name="id">User ID.</param>
+        /// <response code="200">User deleted.</response>
+        /// <response code="404">No user with that ID.</response>
         [HttpDelete("delete/{id}")]
         public IActionResult Delete(int id)
         {
@@ -152,6 +173,14 @@ namespace snap_test.Controllers
         }
 
         //-------------------- Auth -------------------------
+        /// <summary>Log in and receive a JWT for the Admin endpoint.</summary>
+        /// <param name="userLogin">Username and password.</param>
+        /// <remarks>
+        /// Credentials: <c>Michael</c> / <c>Thompson</c> (role Admin). The token expires after 15 minutes.
+        /// Send it as <c>Authorization: Bearer &lt;token&gt;</c> to <c>GET /api/Admin/authorize</c>.
+        /// </remarks>
+        /// <response code="200">Token and login time.</response>
+        /// <response code="404">Unknown username or wrong password (plain-text body).</response>
         [AllowAnonymous]
         [HttpPost("Login")]
         public ActionResult Login([FromBody] UserLogin userLogin)

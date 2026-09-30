@@ -1,0 +1,279 @@
+@host = http://localhost:5251
+
+### ==================== ECHO ====================
+
+### Echo any verb, any sub-path — returns method, url, query, headers, cookies, body, parsed JSON, client info
+POST {{host}}/api/echo/anything/you/like?tag=a&tag=b&page=1
+Content-Type: application/json
+X-Custom-Header: hello
+
+{ "name": "APIBee", "tags": ["test", "echo"] }
+
+### Echo a form post (fields + raw body)
+PUT {{host}}/api/echo
+Content-Type: application/x-www-form-urlencoded
+
+name=Ada&role=engineer
+
+### Echo multipart (fields + file metadata)
+POST {{host}}/api/echo
+Content-Type: multipart/form-data; boundary=----APIBee
+
+------APIBee
+Content-Disposition: form-data; name="title"
+
+Quarterly report
+------APIBee
+Content-Disposition: form-data; name="file"; filename="notes.txt"
+Content-Type: text/plain
+
+hello from a file
+------APIBee--
+
+### Request headers only
+GET {{host}}/api/echo/headers
+Authorization: Bearer demo-token
+
+### Client IP (honours X-Forwarded-For / X-Real-IP for display)
+GET {{host}}/api/echo/ip
+X-Forwarded-For: 203.0.113.7
+
+### User agent
+GET {{host}}/api/echo/user-agent
+
+### HEAD — headers only, no body
+HEAD {{host}}/api/echo
+
+
+### ==================== METHODS ====================
+
+GET {{host}}/api/methods/get
+
+###
+POST {{host}}/api/methods/post
+Content-Type: application/json
+
+{ "hello": "world" }
+
+###
+PUT {{host}}/api/methods/put
+Content-Type: application/json
+
+{ "id": 1, "name": "replaced" }
+
+###
+PATCH {{host}}/api/methods/patch
+Content-Type: application/json
+
+{ "name": "patched" }
+
+###
+DELETE {{host}}/api/methods/delete
+
+###
+HEAD {{host}}/api/methods/head
+
+###
+OPTIONS {{host}}/api/methods/options
+
+### Wrong verb -> 405 Method Not Allowed with Allow: GET
+POST {{host}}/api/methods/get
+
+### Any verb accepted
+PATCH {{host}}/api/methods/any
+Content-Type: text/plain
+
+any body at all
+
+
+### ==================== STATUS CODES ====================
+
+### Any code 200-599 (any verb)
+GET {{host}}/api/status/418
+
+### 204 — no body
+DELETE {{host}}/api/status/204
+
+### 3xx — Location: /api/echo
+GET {{host}}/api/status/301
+
+### 401 — WWW-Authenticate header
+GET {{host}}/api/status/401
+
+### 429 / 503 — Retry-After header
+GET {{host}}/api/status/429
+
+### Weighted random: 200 three times as likely as 500
+GET {{host}}/api/status/random?codes=200:3,500:1
+
+### All known status codes
+GET {{host}}/api/status/list
+
+
+### ==================== REDIRECTS ====================
+
+### 5-hop chain ending at /api/echo
+GET {{host}}/api/redirect/5
+
+### Chain using absolute Location URLs
+GET {{host}}/api/redirect/absolute/3
+
+### Chain using relative Location references ("2", "../../echo")
+GET {{host}}/api/redirect/relative/3
+
+### 303 See Other — client should follow with GET and drop the body
+POST {{host}}/api/redirect/status/303
+Content-Type: application/json
+
+{ "order": 42 }
+
+### 307 Temporary Redirect — client must repeat POST with the same body
+POST {{host}}/api/redirect/status/307
+Content-Type: application/json
+
+{ "order": 42 }
+
+### 308 Permanent Redirect — method and body preserved
+PUT {{host}}/api/redirect/status/308
+Content-Type: application/json
+
+{ "order": 42 }
+
+### Redirect to a local path (absolute URLs rejected — no open redirect)
+GET {{host}}/api/redirect/to?url=/api/status/200&status=302
+
+### Rejected: absolute URL -> 400
+GET {{host}}/api/redirect/to?url=https://example.com
+
+### Infinite loop — tests the client's max-redirect limit
+GET {{host}}/api/redirect/loop
+
+
+### ==================== COOKIES ====================
+
+### Set several cookies
+GET {{host}}/api/cookies/set?theme=dark&lang=en
+
+### Set one cookie with attributes
+GET {{host}}/api/cookies/set/token/abc123?httpOnly=true&secure=true&sameSite=strict&maxAge=3600&path=/
+
+### List cookies the client sent
+GET {{host}}/api/cookies
+
+### Delete specific cookies (omit names to delete all)
+DELETE {{host}}/api/cookies/delete?names=theme,lang
+
+### Session login (test / test123 or admin / admin123) -> apibee_session cookie
+POST {{host}}/api/cookies/login
+Content-Type: application/json
+
+{ "username": "test", "password": "test123" }
+
+### Current user from the session cookie (401 without it)
+GET {{host}}/api/cookies/me
+
+### Logout
+POST {{host}}/api/cookies/logout
+
+
+### ==================== CACHING ====================
+
+### ETag — note the ETag response header
+GET {{host}}/api/cache/etag
+
+### If-None-Match -> 304 Not Modified
+GET {{host}}/api/cache/etag
+If-None-Match: "doc-v1"
+
+### Conditional update without If-Match -> 428 Precondition Required
+PUT {{host}}/api/cache/etag
+Content-Type: application/json
+
+{ "title": "Updated title" }
+
+### Conditional update with a stale ETag -> 412 Precondition Failed
+PUT {{host}}/api/cache/etag
+Content-Type: application/json
+If-Match: "doc-v99"
+
+{ "title": "Updated title" }
+
+### Conditional update with the current ETag -> 200, new ETag
+PUT {{host}}/api/cache/etag
+Content-Type: application/json
+If-Match: "doc-v1"
+
+{ "title": "Updated title", "content": "New content" }
+
+### Reset the document to version 1
+POST {{host}}/api/cache/etag/reset
+
+### Last-Modified / If-Modified-Since -> 304
+GET {{host}}/api/cache/last-modified
+If-Modified-Since: Wed, 01 Jan 2025 00:00:00 GMT
+
+### Cache-Control: public, max-age=120
+GET {{host}}/api/cache/max-age/120
+
+### Never cache
+GET {{host}}/api/cache/no-store
+
+### Vary: Accept-Language (en, es, fr, de, hi)
+GET {{host}}/api/cache/vary
+Accept-Language: fr-FR, es;q=0.8
+
+
+### ==================== REQUEST BODIES ====================
+
+### JSON only (other Content-Types -> 415)
+POST {{host}}/api/bodies/json
+Content-Type: application/json
+
+{ "id": 7, "items": [1, 2, 3], "active": true }
+
+### Wrong Content-Type -> 415 Unsupported Media Type
+POST {{host}}/api/bodies/json
+Content-Type: text/plain
+
+{ "id": 7 }
+
+### URL-encoded form
+POST {{host}}/api/bodies/form
+Content-Type: application/x-www-form-urlencoded
+
+color=red&color=blue&size=M
+
+### Plain text — character, line and word counts
+POST {{host}}/api/bodies/text
+Content-Type: text/plain
+
+The quick brown fox
+jumps over the lazy dog
+
+### XML — parsed into an element tree (DTDs rejected)
+POST {{host}}/api/bodies/xml
+Content-Type: application/xml
+
+<order id="1001">
+  <customer>Ada Lovelace</customer>
+  <item sku="BK-1" qty="2">Notebook</item>
+  <item sku="PN-4" qty="5">Pen</item>
+</order>
+
+### Binary — size, sha256, md5, first 16 bytes
+POST {{host}}/api/bodies/binary
+Content-Type: application/octet-stream
+
+< ./fundamentals.http
+
+### Any body — content sniffing vs declared Content-Type
+PUT {{host}}/api/bodies/any
+Content-Type: text/plain
+
+{ "actually": "json" }
+
+### Large upload (streamed, up to 10MB; larger -> 413)
+POST {{host}}/api/bodies/large
+Content-Type: application/octet-stream
+
+< ./fundamentals.http
