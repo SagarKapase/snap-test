@@ -118,8 +118,8 @@ namespace snap_test.Controllers
             json.Append("  \"sqlInjection\": \"Robert'); DROP TABLE Students;--\",\n");
             json.Append("  \"pathTraversal\": \"../../etc/passwd\",\n");
             json.Append("  \"template\": \"{{user.name}} ${env.HOME} <%= secret %>\",\n");
-            json.Append("  \"url\": \"https://apibee.dev/search?q=bee&lang=en#results\",\n");
-            json.Append("  \"email\": \"alice+test@apibee.dev\",\n");
+            json.Append("  \"url\": \"https://example.com/search?q=bee&lang=en#results\",\n");
+            json.Append("  \"email\": \"alice+test@example.com\",\n");
             json.Append("  \"base64\": \"QVBJQmVlIHJvY2tz\",\n");
             json.Append("  \"longStringLength\": ").Append(longString.Length).Append(",\n");
             json.Append("  \"longString\": \"").Append(longString).Append("\"\n");

@@ -23,8 +23,8 @@ namespace snap_test.Controllers
 
         private static readonly Dictionary<string, JwtUser> Users = new(StringComparer.OrdinalIgnoreCase)
         {
-            ["admin"] = new("admin", "admin123", "admin", "Alice Admin", "admin@apibee.dev"),
-            ["user"] = new("user", "user123", "user", "Uma User", "user@apibee.dev")
+            ["admin"] = new("admin", "admin123", "admin", "Alice Admin", "admin@example.com"),
+            ["user"] = new("user", "user123", "user", "Uma User", "user@example.com")
         };
 
         private static readonly object Sync = new();

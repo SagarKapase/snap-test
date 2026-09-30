@@ -7,14 +7,22 @@
     <RootNamespace>snap_test</RootNamespace>
     <UserSecretsId>dfd8ce6a-65a0-4225-84f4-76cfd15962f4</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..</DockerfileContext>
     <!-- XML docs feed Swagger summaries; undocumented members are fine. -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
+    <!-- Assembly / release metadata. CI overrides Version from the git tag (-p:Version=x.y.z). -->
+    <Version>1.0.0</Version>
+    <Authors>Sagar Kapase</Authors>
+    <Product>APIBee</Product>
+    <Description>Hardcoded dummy APIs for testing HTTP clients, API tools and automation suites.</Description>
+    <Copyright>Copyright (c) 2026 Sagar Kapase</Copyright>
+    <RepositoryUrl>https://github.com/SagarKapase/snap-test</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="HotChocolate.AspNetCore" Version="15.0.0" />
-    <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.5.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.15.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />

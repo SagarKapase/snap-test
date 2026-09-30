@@ -51,8 +51,8 @@ namespace snap_test.Controllers
 
         private static readonly Dictionary<string, OAuthUser> Users = new()
         {
-            ["apibee"] = new("apibee", "password123", "APIBee Tester", "tester@apibee.dev"),
-            ["jane"] = new("jane", "jane123", "Jane Doe", "jane.doe@apibee.dev")
+            ["apibee"] = new("apibee", "password123", "APIBee Tester", "tester@example.com"),
+            ["jane"] = new("jane", "jane123", "Jane Doe", "jane.doe@example.com")
         };
 
         // Exact-match redirect URIs, plus any port on localhost / 127.0.0.1 (see IsAllowedRedirect).

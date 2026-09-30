@@ -66,7 +66,7 @@ namespace snap_test.Swagger
             new("POST", "api/soap/calculator", "application/soap+xml", Text(), "SOAP 1.2 envelope.",
                 JsonValue.Create("""<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"><soap:Body><Multiply xmlns="http://tempuri.org/"><intA>6</intA><intB>7</intB></Multiply></soap:Body></soap:Envelope>""")),
             new("POST", "api/soap/countries", "text/xml", Text(), "SOAP 1.1 envelope for GetCountryInfo or ListCountries.",
-                JsonValue.Create("""<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><GetCountryInfo xmlns="http://apibee.dev/countries"><countryCode>JP</countryCode></GetCountryInfo></soap:Body></soap:Envelope>""")),
+                JsonValue.Create("""<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><GetCountryInfo xmlns="http://example.com/countries"><countryCode>JP</countryCode></GetCountryInfo></soap:Body></soap:Envelope>""")),
             new(AnyWrite, "api/webhooks/{binid}", "application/json", AnyJson(), "Any payload; it is captured in the bin.", JsonNode.Parse("""{"event":"order.created","id":42}""")),
             new(AnyWrite, "api/webhooks/{binid}/{rest}", "application/json", AnyJson(), "Any payload; it is captured in the bin."),
         };

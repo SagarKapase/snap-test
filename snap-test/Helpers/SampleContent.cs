@@ -19,25 +19,25 @@ namespace snap_test.Helpers
 
         public const string Csv =
             "id,name,email,department,salary,active\n" +
-            "1,Alice Johnson,alice@apibee.dev,Engineering,98000,true\n" +
-            "2,Bob Smith,bob@apibee.dev,Marketing,72000,true\n" +
-            "3,\"Carol, Jr.\",carol@apibee.dev,Sales,65000,false\n" +
-            "4,\"David \"\"Dave\"\" Lee\",david@apibee.dev,Engineering,105000,true\n" +
-            "5,Eve Martinez,eve@apibee.dev,Finance,81000,true\n";
+            "1,Alice Johnson,alice@example.com,Engineering,98000,true\n" +
+            "2,Bob Smith,bob@example.com,Marketing,72000,true\n" +
+            "3,\"Carol, Jr.\",carol@example.com,Sales,65000,false\n" +
+            "4,\"David \"\"Dave\"\" Lee\",david@example.com,Engineering,105000,true\n" +
+            "5,Eve Martinez,eve@example.com,Finance,81000,true\n";
 
         public const string Tsv =
             "id\tname\temail\tdepartment\tsalary\tactive\n" +
-            "1\tAlice Johnson\talice@apibee.dev\tEngineering\t98000\ttrue\n" +
-            "2\tBob Smith\tbob@apibee.dev\tMarketing\t72000\ttrue\n" +
-            "3\tCarol White\tcarol@apibee.dev\tSales\t65000\tfalse\n" +
-            "4\tDavid Lee\tdavid@apibee.dev\tEngineering\t105000\ttrue\n" +
-            "5\tEve Martinez\teve@apibee.dev\tFinance\t81000\ttrue\n";
+            "1\tAlice Johnson\talice@example.com\tEngineering\t98000\ttrue\n" +
+            "2\tBob Smith\tbob@example.com\tMarketing\t72000\ttrue\n" +
+            "3\tCarol White\tcarol@example.com\tSales\t65000\tfalse\n" +
+            "4\tDavid Lee\tdavid@example.com\tEngineering\t105000\ttrue\n" +
+            "5\tEve Martinez\teve@example.com\tFinance\t81000\ttrue\n";
 
         public const string Json =
             "{\n" +
             "  \"id\": 1,\n" +
             "  \"name\": \"Alice Johnson\",\n" +
-            "  \"email\": \"alice@apibee.dev\",\n" +
+            "  \"email\": \"alice@example.com\",\n" +
             "  \"roles\": [\"admin\", \"editor\"],\n" +
             "  \"active\": true,\n" +
             "  \"address\": { \"city\": \"Pune\", \"country\": \"India\", \"zip\": \"411001\" },\n" +
@@ -49,13 +49,13 @@ namespace snap_test.Helpers
             "<users>\n" +
             "  <user id=\"1\">\n" +
             "    <name>Alice Johnson</name>\n" +
-            "    <email>alice@apibee.dev</email>\n" +
+            "    <email>alice@example.com</email>\n" +
             "    <roles><role>admin</role><role>editor</role></roles>\n" +
             "    <active>true</active>\n" +
             "  </user>\n" +
             "  <user id=\"2\">\n" +
             "    <name>Bob Smith</name>\n" +
-            "    <email>bob@apibee.dev</email>\n" +
+            "    <email>bob@example.com</email>\n" +
             "    <roles><role>viewer</role></roles>\n" +
             "    <active>false</active>\n" +
             "  </user>\n" +

@@ -261,7 +261,7 @@ namespace snap_test.Controllers
                 fileName = $"export_{job.Id}.csv",
                 rowCount = 1250,
                 sizeBytes = 48213,
-                downloadUrl = $"https://files.apibee.dev/exports/{job.Id}.csv",
+                downloadUrl = $"https://files.example.com/exports/{job.Id}.csv",
                 expiresAt = Iso(job.CreatedAt.AddDays(7))
             },
             _ => (object)new
