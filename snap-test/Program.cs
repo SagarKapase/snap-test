@@ -14,6 +14,10 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     ContentRootPath = AppContext.BaseDirectory
 });
 
+// Cloud hosts such as Render, Railway, Heroku and Cloud Run tell the app which port to listen on via PORT.
+if (int.TryParse(Environment.GetEnvironmentVariable("PORT"), out var hostPort))
+    builder.WebHost.UseUrls($"http://0.0.0.0:{hostPort}");
+
 // Add services to the container.
 
 builder.Services.AddControllers();

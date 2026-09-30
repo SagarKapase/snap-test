@@ -1,0 +1,9 @@
+# Used when the Docker build context is this project folder (e.g. Render with Root Directory = snap-test).
+# Builds from the repository root use the .dockerignore at the root instead.
+**/bin
+**/obj
+**/.vs
+**/.vscode
+**/*.user
+**/Dockerfile*
+**/.dockerignore
