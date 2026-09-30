@@ -1,0 +1,272 @@
+@host = http://localhost:5251
+
+### ==================== STREAMING ====================
+
+### Server-Sent Events (10 events, 1s apart). Resume with Last-Event-ID.
+GET {{host}}/api/stream/sse?count=5&interval=500
+Accept: text/event-stream
+
+### SSE resume after event 3
+GET {{host}}/api/stream/sse?count=5&interval=200
+Accept: text/event-stream
+Last-Event-ID: 3
+
+### SSE stock ticker
+GET {{host}}/api/stream/sse/stock?count=5&interval=500
+
+### Newline-delimited JSON
+GET {{host}}/api/stream/ndjson/20?intervalMs=50
+
+### Chunked transfer encoding
+GET {{host}}/api/stream/chunked/5?intervalMs=300
+
+### Drip 20 bytes over 2 seconds
+GET {{host}}/api/stream/drip?durationMs=2000&bytes=20
+
+### Streamed JSON array
+GET {{host}}/api/stream/json-array/10?intervalMs=100
+
+### ==================== WEBSOCKETS ====================
+# Connect with a WebSocket client:
+#   ws://localhost:5251/ws/echo          (send "close" to disconnect)
+#   ws://localhost:5251/ws/ticker?count=10
+
+### Plain HTTP to a WebSocket endpoint -> 400 with instructions
+GET {{host}}/ws/echo
+
+### ==================== ASYNC JOBS ====================
+
+### Start a job -> 202 Accepted + Location + Retry-After
+POST {{host}}/api/jobs
+Content-Type: application/json
+
+{ "type": "report", "durationSeconds": 10 }
+
+### Job that fails at 60%
+POST {{host}}/api/jobs
+Content-Type: application/json
+
+{ "type": "fail", "durationSeconds": 5 }
+
+### List jobs (optional ?status=queued|running|completed|failed|cancelled)
+GET {{host}}/api/jobs
+
+### Poll status (seed job)
+GET {{host}}/api/jobs/job_0001
+
+### Result (409 while queued/running)
+GET {{host}}/api/jobs/job_0001/result
+
+### Cancel
+DELETE {{host}}/api/jobs/job_1001
+
+### ==================== PAGINATION STYLES ====================
+
+### Offset / limit
+GET {{host}}/api/pagination/offset?offset=20&limit=10
+
+### Spring page envelope (0-based)
+GET {{host}}/api/pagination/page?page=2&size=10
+
+### Stripe-style cursor (pass next_cursor back as ?cursor=)
+GET {{host}}/api/pagination/cursor?limit=5
+
+### GitHub-style Link header (1-based)
+GET {{host}}/api/pagination/link?page=2&per_page=10
+
+### Keyset
+GET {{host}}/api/pagination/keyset?after_id=40&limit=10
+
+### HAL (_embedded / _links)
+GET {{host}}/api/pagination/hal?page=1&size=5
+
+### Single item
+GET {{host}}/api/pagination/items/42
+
+### ==================== CHAOS ====================
+
+### Random failures (503 with probability failRate)
+GET {{host}}/api/chaos/flaky?failRate=0.5
+
+### Fail the first 3 attempts for this key, then succeed
+GET {{host}}/api/chaos/retry/my-test?succeedAfter=3&failStatus=503
+
+### Reset the retry counter
+DELETE {{host}}/api/chaos/retry/my-test
+
+### Random wait between minMs and maxMs (cap 30s)
+GET {{host}}/api/chaos/slow?minMs=500&maxMs=2000
+
+### Hang for N seconds, then answer (cap 60s)
+GET {{host}}/api/chaos/timeout?seconds=5
+
+### Realistic latency distribution (p90 fast, p99 slow)
+GET {{host}}/api/chaos/random-latency
+
+### Connection dropped with no response
+GET {{host}}/api/chaos/abort
+
+### Truncated body, then connection dropped
+GET {{host}}/api/chaos/partial
+
+### Many large response headers
+GET {{host}}/api/chaos/huge-headers?count=50&size=200
+
+### ==================== WEBHOOKS ====================
+
+### Create a bin
+POST {{host}}/api/webhooks/bins
+Content-Type: application/json
+
+{ "name": "my-bin" }
+
+### List bins
+GET {{host}}/api/webhooks/bins
+
+### Send something to a bin (replace BIN_ID); any verb and sub-path work, ?status= sets the reply code
+POST {{host}}/api/webhooks/BIN_ID/orders/created?status=202
+Content-Type: application/json
+X-Custom-Header: hello
+
+{ "event": "order.created", "orderId": 1001 }
+
+### Inspect captured requests
+GET {{host}}/api/webhooks/bins/BIN_ID
+
+### Clear captured requests
+DELETE {{host}}/api/webhooks/bins/BIN_ID/requests
+
+### Delete bin
+DELETE {{host}}/api/webhooks/bins/BIN_ID
+
+### Sample signed events
+GET {{host}}/api/webhooks/samples
+
+### Stripe sample (raw body + Stripe-Signature header)
+GET {{host}}/api/webhooks/samples/stripe
+
+### GitHub sample as a JSON envelope
+GET {{host}}/api/webhooks/samples/github?format=envelope
+
+### Shopify sample
+GET {{host}}/api/webhooks/samples/shopify
+
+### ==================== VERSIONING ====================
+
+### Supported versions
+GET {{host}}/api/versions
+
+### Path v1 (Deprecation / Sunset / Link headers)
+GET {{host}}/api/v1/profile
+
+### Path v2
+GET {{host}}/api/v2/profile
+
+### Header
+GET {{host}}/api/versioned/profile
+X-API-Version: 1
+
+### Query
+GET {{host}}/api/versioned/profile?api-version=2.0
+
+### Media type
+GET {{host}}/api/versioned/profile
+Accept: application/vnd.apibee.v1+json
+
+### Unsupported -> 400
+GET {{host}}/api/versioned/profile?api-version=3
+
+### ==================== SOAP ====================
+
+### WSDL
+GET {{host}}/api/soap/calculator?wsdl
+
+### Usage + sample envelopes
+GET {{host}}/api/soap/calculator
+
+### SOAP 1.1 Add
+POST {{host}}/api/soap/calculator
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://tempuri.org/Add"
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <Add xmlns="http://tempuri.org/"><intA>5</intA><intB>3</intB></Add>
+  </soap:Body>
+</soap:Envelope>
+
+### SOAP 1.2 Divide by zero -> Fault
+POST {{host}}/api/soap/calculator
+Content-Type: application/soap+xml; charset=utf-8
+
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+  <soap:Body>
+    <Divide xmlns="http://tempuri.org/"><intA>10</intA><intB>0</intB></Divide>
+  </soap:Body>
+</soap:Envelope>
+
+### Countries: GetCountryInfo
+POST {{host}}/api/soap/countries
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://apibee.dev/countries/GetCountryInfo"
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <GetCountryInfo xmlns="http://apibee.dev/countries"><countryCode>IN</countryCode></GetCountryInfo>
+  </soap:Body>
+</soap:Envelope>
+
+### Countries: ListCountries
+POST {{host}}/api/soap/countries
+Content-Type: text/xml; charset=utf-8
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body><ListCountries xmlns="http://apibee.dev/countries"/></soap:Body>
+</soap:Envelope>
+
+### ==================== VALIDATION ====================
+
+### Valid registration -> 201
+POST {{host}}/api/validation/register
+Content-Type: application/json
+
+{
+  "username": "ava_t",
+  "email": "ava@example.com",
+  "password": "Str0ng!Pass",
+  "confirmPassword": "Str0ng!Pass",
+  "age": 29,
+  "country": "US",
+  "phone": "+15550101",
+  "acceptTerms": true
+}
+
+### Invalid registration -> 422 problem+json
+POST {{host}}/api/validation/register
+Content-Type: application/json
+
+{ "username": "admin", "email": "not-an-email", "password": "weak", "age": "abc", "country": "XX", "acceptTerms": false }
+
+### Strict: unknown field -> 400
+POST {{host}}/api/validation/strict
+Content-Type: application/json
+
+{ "name": "Widget", "email": "a@b.co", "quantity": 2, "colour": "red" }
+
+### Strict: valid -> 200
+POST {{host}}/api/validation/strict
+Content-Type: application/json
+
+{ "name": "Widget", "email": "a@b.co", "quantity": 2 }
+
+### DataAnnotations -> framework automatic 400
+POST {{host}}/api/validation/annotations
+Content-Type: application/json
+
+{ "username": "ab", "email": "nope", "age": 12, "countryCode": "usa", "website": "not a url" }
+
+### Problem document types
+GET {{host}}/api/validation/problem
+
+### Sample problem document
+GET {{host}}/api/validation/problem/rate-limited

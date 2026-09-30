@@ -5,11 +5,21 @@ using snap_test.Models;
 
 namespace snap_test.Controllers
 {
+    /// <summary>Orders with line items, shipping address and a status of pending, processing, shipped, delivered or cancelled. Hardcoded in-memory data: writes last until the app restarts.</summary>
     [ApiController]
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
         // -------------------- GET ALL (filters ?userId= ?status=, pagination / sort) --------------------
+        /// <summary>List orders with filtering, sorting, search and pagination.</summary>
+        /// <remarks>
+        /// Common filters: `userId`, `status`. Any other property name also works as an exact, case-insensitive filter.
+        /// Paging and sorting: `limit` (1-100), `page` (1-based, needs `limit`), `offset`, `sort` (property name),
+        /// `order` (`asc` or `desc`) and `q` (search across title, name, body, description and text fields).
+        /// Totals are returned in the X-Total-Count, X-Page, X-Per-Page and X-Total-Pages headers.
+        /// </remarks>
+        /// <response code="200">The matching orders.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -32,6 +42,11 @@ namespace snap_test.Controllers
         }
 
         // -------------------- GET BY ID --------------------
+        /// <summary>Get a order by ID.</summary>
+        /// <param name="id">Order ID.</param>
+        /// <response code="200">The order.</response>
+        /// <response code="404">The order does not exist.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
@@ -51,6 +66,11 @@ namespace snap_test.Controllers
         }
 
         // -------------------- CREATE --------------------
+        /// <summary>Create a order.</summary>
+        /// <param name="newOrder">The new order. Any client-supplied ID is replaced.</param>
+        /// <response code="201">Created; returns { message, data } with the generated ID.</response>
+        /// <response code="400">items is missing or empty.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpPost]
         public IActionResult Create([FromBody] Order newOrder)
         {
@@ -83,6 +103,13 @@ namespace snap_test.Controllers
         }
 
         // -------------------- UPDATE (change status) --------------------
+        /// <summary>Update a order.</summary>
+        /// <remarks>Changes status, shippingAddress and deliveredAt when provided. Setting status to delivered stamps deliveredAt if it is empty.</remarks>
+        /// <param name="id">Order ID.</param>
+        /// <param name="updatedOrder">The new field values.</param>
+        /// <response code="200">Updated; returns { message, data }.</response>
+        /// <response code="404">The order does not exist.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpPut("{id:int}")]
         public IActionResult Update(int id, [FromBody] Order updatedOrder)
         {

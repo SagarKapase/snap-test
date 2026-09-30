@@ -1,0 +1,195 @@
+@host = http://localhost:5251
+
+### ==================== EMPLOYEES ====================
+GET {{host}}/api/employees?department=engineering&sort=salary&order=desc&limit=5&page=1
+
+###
+GET {{host}}/api/employees/count
+
+###
+GET {{host}}/api/employees/1
+
+###
+HEAD {{host}}/api/employees/1
+
+###
+GET {{host}}/api/employees/2/reports
+
+###
+GET {{host}}/api/employees/departments
+
+###
+GET {{host}}/api/employees/stats
+
+###
+POST {{host}}/api/employees
+Content-Type: application/json
+
+{
+  "firstName": "Grace",
+  "lastName": "Hopper",
+  "email": "grace.hopper@nimbuscloud.example.com",
+  "department": "Engineering",
+  "title": "Principal Engineer",
+  "salary": 210000,
+  "hireDate": "2026-09-30",
+  "managerId": 2,
+  "companyId": 1,
+  "skills": ["COBOL", "Compilers"],
+  "address": { "street": "1 Navy Way", "city": "San Francisco", "state": "CA", "zip": "94105", "country": "USA" },
+  "active": true
+}
+
+###
+PATCH {{host}}/api/employees/5
+Content-Type: application/json
+
+{ "title": "Senior Software Engineer", "salary": 150000 }
+
+###
+DELETE {{host}}/api/employees/bulk?ids=24,25
+
+### ==================== COMPANIES ====================
+GET {{host}}/api/companies?industry=technology
+
+###
+GET {{host}}/api/companies/1/employees
+
+###
+PUT {{host}}/api/companies/6
+Content-Type: application/json
+
+{
+  "name": "Pixelcraft Studios",
+  "industry": "Media",
+  "founded": 2015,
+  "website": "https://pixelcraft.example.com",
+  "headquarters": { "city": "Toronto", "country": "Canada" },
+  "revenue": 150000000,
+  "employeeCount": 520
+}
+
+### ==================== BOOKS ====================
+GET {{host}}/api/books?genre=fantasy&sort=rating&order=desc
+
+###
+GET {{host}}/api/books?q=code
+
+###
+GET {{host}}/api/books/genres
+
+###
+GET {{host}}/api/books/authors
+
+###
+GET {{host}}/api/books/isbn/978-0441172719
+
+###
+POST {{host}}/api/books/bulk
+Content-Type: application/json
+
+[
+  { "title": "Book One", "author": "Jane Doe", "genre": "fantasy", "pages": 320, "price": 12.99, "rating": 4.1 },
+  { "title": "Book Two", "author": "Jane Doe", "genre": "fantasy", "pages": 280, "price": 11.99, "rating": 3.8 }
+]
+
+###
+# 400: rating out of range
+POST {{host}}/api/books
+Content-Type: application/json
+
+{ "title": "Bad Book", "author": "Nobody", "rating": 9 }
+
+### ==================== MOVIES ====================
+GET {{host}}/api/movies?director=christopher%20nolan
+
+###
+GET {{host}}/api/movies/genres
+
+###
+GET {{host}}/api/movies/top?limit=5
+
+###
+GET {{host}}/api/movies/year/1994
+
+###
+DELETE {{host}}/api/movies/25
+
+### ==================== COUNTRIES ====================
+GET {{host}}/api/countries?region=europe&sort=population&order=desc
+
+###
+GET {{host}}/api/countries/code/JPN
+
+###
+GET {{host}}/api/countries/regions
+
+###
+GET {{host}}/api/countries/region/africa
+
+### ==================== PEOPLE ====================
+GET {{host}}/api/people?gender=female&limit=5
+
+###
+GET {{host}}/api/people/1
+
+###
+POST {{host}}/api/people
+Content-Type: application/json
+
+{
+  "firstName": "Ada",
+  "lastName": "Lovelace",
+  "username": "alovelace",
+  "email": "alovelace@example.com",
+  "gender": "female",
+  "dateOfBirth": "1815-12-10",
+  "address": { "street": "12 St James's Square", "city": "London", "zip": "SW1Y 4JH", "country": "United Kingdom", "geo": { "lat": 51.507, "lng": -0.134 } },
+  "company": { "name": "Analytical Engines Ltd", "title": "Mathematician" }
+}
+
+### ==================== EVENTS ====================
+GET {{host}}/api/events?category=conference
+
+###
+GET {{host}}/api/events/upcoming?from=2026-11-01
+
+###
+# 400: ticketsSold > capacity
+POST {{host}}/api/events
+Content-Type: application/json
+
+{ "name": "Oversold Gig", "startsAt": "2026-12-01T20:00:00Z", "capacity": 10, "ticketsSold": 20 }
+
+### ==================== ALBUMS & PHOTOS ====================
+GET {{host}}/api/albums?userId=101
+
+###
+GET {{host}}/api/albums/1/photos
+
+###
+GET {{host}}/api/photos?albumId=3&limit=2
+
+### ==================== GRAPHQL ====================
+POST {{host}}/graphql
+Content-Type: application/json
+
+{ "query": "{ employees(department: \"engineering\") { id firstName title salary address { city } } companies { name headquarters { city } } }" }
+
+###
+POST {{host}}/graphql
+Content-Type: application/json
+
+{ "query": "{ country(code: \"JP\") { name capital currency { code symbol } } movies(genre: \"sci-fi\") { title year rating } photos(albumId: 1) { id url } }" }
+
+###
+POST {{host}}/graphql
+Content-Type: application/json
+
+{ "query": "mutation { addTodo(title: \"Write tests\", userId: 101, priority: \"high\") { id title completed } }" }
+
+###
+POST {{host}}/graphql
+Content-Type: application/json
+
+{ "query": "mutation { toggleTodo(id: 1) { id completed } }" }

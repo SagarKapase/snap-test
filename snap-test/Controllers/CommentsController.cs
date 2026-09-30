@@ -5,11 +5,21 @@ using snap_test.Models;
 
 namespace snap_test.Controllers
 {
+    /// <summary>Comments on posts. Hardcoded in-memory data: writes last until the app restarts.</summary>
     [ApiController]
     [Route("api/[controller]")]
     public class CommentsController : ControllerBase
     {
         // -------------------- GET ALL (filter ?postId=, pagination / sort / search) --------------------
+        /// <summary>List comments with filtering, sorting, search and pagination.</summary>
+        /// <remarks>
+        /// Common filters: `postId`, `userId`. Any other property name also works as an exact, case-insensitive filter.
+        /// Paging and sorting: `limit` (1-100), `page` (1-based, needs `limit`), `offset`, `sort` (property name),
+        /// `order` (`asc` or `desc`) and `q` (search across title, name, body, description and text fields).
+        /// Totals are returned in the X-Total-Count, X-Page, X-Per-Page and X-Total-Pages headers.
+        /// </remarks>
+        /// <response code="200">The matching comments.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -32,6 +42,11 @@ namespace snap_test.Controllers
         }
 
         // -------------------- GET BY ID --------------------
+        /// <summary>Get a comment by ID.</summary>
+        /// <param name="id">Comment ID.</param>
+        /// <response code="200">The comment.</response>
+        /// <response code="404">The comment does not exist.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
@@ -51,6 +66,11 @@ namespace snap_test.Controllers
         }
 
         // -------------------- CREATE --------------------
+        /// <summary>Create a comment.</summary>
+        /// <param name="newComment">The new comment. Any client-supplied ID is replaced.</param>
+        /// <response code="201">Created; returns { message, data } with the generated ID.</response>
+        /// <response code="400">body is missing.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpPost]
         public IActionResult Create([FromBody] Comment newComment)
         {
@@ -79,6 +99,11 @@ namespace snap_test.Controllers
         }
 
         // -------------------- DELETE --------------------
+        /// <summary>Delete a comment.</summary>
+        /// <param name="id">Comment ID.</param>
+        /// <response code="200">Deleted.</response>
+        /// <response code="404">The comment does not exist.</response>
+        /// <response code="500">Unexpected server error.</response>
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {

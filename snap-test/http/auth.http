@@ -1,0 +1,228 @@
+@host = http://localhost:5251
+
+### List every auth scheme + its test credentials
+GET {{host}}/api/auth
+
+############################## BASIC ##############################
+
+### Basic — valid (apibee / password123)
+GET {{host}}/api/auth/basic
+Authorization: Basic apibee password123
+
+### Basic — wrong password (401 + WWW-Authenticate)
+GET {{host}}/api/auth/basic
+Authorization: Basic apibee wrong
+
+### Basic — credentials taken from the path (httpbin style)
+GET {{host}}/api/auth/basic/foo/bar
+Authorization: Basic foo bar
+
+### Basic hidden — wrong creds return 404 instead of 401
+GET {{host}}/api/auth/basic-hidden/foo/bar
+Authorization: Basic foo nope
+
+############################## BEARER / API KEY ##############################
+
+### Bearer — valid
+GET {{host}}/api/auth/bearer
+Authorization: Bearer apibee-token-123
+
+### Bearer — invalid (401, WWW-Authenticate error="invalid_token")
+GET {{host}}/api/auth/bearer
+Authorization: Bearer not-a-real-token
+
+### API key in header (missing = 401, wrong = 403)
+GET {{host}}/api/auth/api-key/header
+X-API-Key: apibee-key-123
+
+### API key in query string
+GET {{host}}/api/auth/api-key/query?api_key=apibee-key-123
+
+### API key in cookie
+GET {{host}}/api/auth/api-key/cookie
+Cookie: api_key=apibee-key-123
+
+############################## DIGEST ##############################
+
+### Digest (MD5, qop=auth) — apibee / password123. First call without creds returns the 401 challenge.
+### curl: curl --digest -u apibee:password123 {{host}}/api/auth/digest
+GET {{host}}/api/auth/digest
+Authorization: Digest apibee password123
+
+############################## HMAC ##############################
+
+### HMAC signing: X-Signature = hex(HMAC-SHA256("apibee-hmac-secret", X-Timestamp + "." + rawBody))
+### Timestamp must be within 5 minutes of server time. Bash:
+###   TS=$(date +%s); BODY='{"event":"order.created","id":42}'
+###   SIG=$(printf '%s' "$TS.$BODY" | openssl dgst -sha256 -hmac apibee-hmac-secret | awk '{print $NF}')
+POST {{host}}/api/auth/hmac
+Content-Type: application/json
+X-Timestamp: 1790777245
+X-Signature: replace-with-computed-signature
+
+{"event":"order.created","id":42}
+
+############################## ROLES / SCOPES (401 vs 403) ##############################
+
+### Admin role — admin-token passes
+GET {{host}}/api/auth/roles/admin
+Authorization: Bearer admin-token
+
+### Admin role — user-token is authenticated but forbidden (403)
+GET {{host}}/api/auth/roles/admin
+Authorization: Bearer user-token
+
+### User role — readonly-token gets 403
+GET {{host}}/api/auth/roles/user
+Authorization: Bearer readonly-token
+
+### Needs 'delete' scope — only admin-token
+DELETE {{host}}/api/auth/roles/resource
+Authorization: Bearer admin-token
+
+############################## CSRF (double-submit cookie) ##############################
+
+### 1. Get a token (sets XSRF-TOKEN cookie)
+GET {{host}}/api/auth/csrf/token
+
+### 2. Submit with the same value in X-CSRF-Token (403 on missing/mismatch)
+POST {{host}}/api/auth/csrf/submit
+Cookie: XSRF-TOKEN=paste-token-here
+X-CSRF-Token: paste-token-here
+
+############################## OAUTH 2.0 ##############################
+# Clients: apibee-client / apibee-secret (confidential), apibee-public (public, PKCE required)
+# Users (password grant): apibee / password123, jane / jane123
+
+### client_credentials (form body)
+POST {{host}}/api/auth/oauth/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id=apibee-client&client_secret=apibee-secret&scope=read
+
+### client_credentials (client auth via Basic header)
+POST {{host}}/api/auth/oauth/token
+Authorization: Basic apibee-client apibee-secret
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+
+### password grant (JSON body works too)
+POST {{host}}/api/auth/oauth/token
+Content-Type: application/json
+
+{"grant_type":"password","client_id":"apibee-client","client_secret":"apibee-secret","username":"jane","password":"jane123","scope":"read email"}
+
+### authorization_code step 1 — authorize (auto-approved as "apibee"; 302 to allowlisted localhost redirect)
+### PKCE: code_verifier = dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk -> S256 challenge below
+GET {{host}}/api/auth/oauth/authorize?response_type=code&client_id=apibee-public&redirect_uri=http://localhost:3000/callback&state=xyz&scope=read%20profile&code_challenge=E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM&code_challenge_method=S256
+
+### authorization_code step 2 — exchange the code
+POST {{host}}/api/auth/oauth/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&client_id=apibee-public&code=paste-code-here&redirect_uri=http://localhost:3000/callback&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk
+
+### refresh_token (rotates: the old refresh token stops working)
+POST {{host}}/api/auth/oauth/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&client_id=apibee-client&client_secret=apibee-secret&refresh_token=paste-refresh-token
+
+### Protected resource
+GET {{host}}/api/auth/oauth/protected
+Authorization: Bearer paste-access-token
+
+### UserInfo (403 for client_credentials tokens)
+GET {{host}}/api/auth/oauth/userinfo
+Authorization: Bearer paste-access-token
+
+### Introspect (RFC 7662)
+POST {{host}}/api/auth/oauth/introspect
+Content-Type: application/x-www-form-urlencoded
+
+token=paste-access-token
+
+### Revoke (RFC 7009)
+POST {{host}}/api/auth/oauth/revoke
+Content-Type: application/x-www-form-urlencoded
+
+token=paste-access-token
+
+############################## JWT ##############################
+
+### Login as admin (admin / admin123) — user / user123 has role "user"
+POST {{host}}/api/auth/jwt/login
+Content-Type: application/json
+
+{"username":"admin","password":"admin123"}
+
+### Who am I (401 without a valid token)
+GET {{host}}/api/auth/jwt/me
+Authorization: Bearer paste-jwt
+
+### Admin only (403 with the user token)
+GET {{host}}/api/auth/jwt/admin
+Authorization: Bearer paste-jwt
+
+### Refresh (rotates the refresh token)
+POST {{host}}/api/auth/jwt/refresh
+Content-Type: application/json
+
+{"refreshToken":"paste-refresh-token"}
+
+### Get an already-expired JWT for negative tests
+GET {{host}}/api/auth/jwt/expired
+
+############################## RATE LIMIT (real: 5 req / 60s) ##############################
+
+### Call 6 times — the 6th returns 429 + Retry-After
+GET {{host}}/api/ratelimit
+X-Client-Id: my-test-client
+
+### Check the window without consuming
+GET {{host}}/api/ratelimit/status
+X-Client-Id: my-test-client
+
+### Reset your window
+POST {{host}}/api/ratelimit/reset
+X-Client-Id: my-test-client
+
+############################## PAYMENTS (Idempotency-Key) ##############################
+
+### List payments (filters / sort / pagination)
+GET {{host}}/api/payments?status=succeeded&limit=5&page=1
+
+### Get one
+GET {{host}}/api/payments/1
+
+### Create — send twice with the same key: second response has Idempotent-Replayed: true
+POST {{host}}/api/payments
+Content-Type: application/json
+Idempotency-Key: 6f1c2e3a-0000-4000-8000-000000000001
+
+{"userId":101,"amount":49.99,"currency":"USD","method":"card","cardLast4":"4242","description":"Test payment"}
+
+### Same key, different body -> 422
+POST {{host}}/api/payments
+Content-Type: application/json
+Idempotency-Key: 6f1c2e3a-0000-4000-8000-000000000001
+
+{"userId":101,"amount":10.00,"currency":"USD","method":"upi"}
+
+### Hold the request open 5s; send the same key again meanwhile -> 409
+POST {{host}}/api/payments?processingSeconds=5
+Content-Type: application/json
+Idempotency-Key: slow-key-1
+
+{"userId":101,"amount":5,"currency":"USD","method":"card","cardLast4":"4242"}
+
+### Card ending 0002 is always declined
+POST {{host}}/api/payments
+Content-Type: application/json
+Idempotency-Key: declined-1
+
+{"userId":101,"amount":5,"currency":"USD","method":"card","cardLast4":"0002"}
+
+### Refund (409 if already refunded or not succeeded)
+POST {{host}}/api/payments/2/refund

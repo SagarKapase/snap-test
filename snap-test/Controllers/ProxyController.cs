@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using snap_test.ApiExecution;
+using snap_test.Helpers;
 using System.Text;
 
 namespace snap_test.Controllers
 {
+    /// <summary>
+    /// Proxy: forward an HTTP request to any URL and return the upstream status and body.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class ProxyController : ControllerBase
@@ -16,33 +18,47 @@ namespace snap_test.Controllers
             _httpClient = httpClient;
         }
 
+        /// <summary>Forward a request to an upstream URL and relay its response.</summary>
+        /// <param name="data">endpointUrl (absolute http or https URL), methodName (GET, POST, ...) and an optional requestBody, sent as JSON except for GET and HEAD.</param>
+        /// <remarks>Returns 200 with the upstream status, statusText and raw body (as a string) whatever the upstream status was.</remarks>
+        /// <response code="200">Upstream status, statusText and body.</response>
+        /// <response code="400">endpointUrl isn't an absolute http(s) URL, or methodName is missing.</response>
+        /// <response code="502">The upstream request failed or timed out.</response>
         [HttpPost("call")]
         public async Task<IActionResult> Execute([FromBody] ApiRequestData data)
         {
-            var httpRequest = new HttpRequestMessage()
-            {
-                Method = new HttpMethod(data.MethodName),
-                RequestUri = new Uri(data.EndpointUrl)
-            };
+            if (!Uri.TryCreate(data.EndpointUrl, UriKind.Absolute, out var uri) ||
+                (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+                return BadRequest(ApiResponse.Error(400, "endpointUrl must be an absolute http(s) URL."));
 
-            if (data.MethodName != "GET" && data.RequestBody != null)
+            if (string.IsNullOrWhiteSpace(data.MethodName))
+                return BadRequest(ApiResponse.Error(400, "methodName is required."));
+
+            var method = new HttpMethod(data.MethodName.Trim().ToUpperInvariant());
+            var httpRequest = new HttpRequestMessage(method, uri);
+
+            if (method != HttpMethod.Get && method != HttpMethod.Head && !string.IsNullOrEmpty(data.RequestBody))
             {
                 httpRequest.Content = new StringContent(data.RequestBody, Encoding.UTF8, "application/json");
             }
-           
-            var response = await _httpClient.SendAsync(httpRequest);
-            var rawBody = await response.Content.ReadAsStringAsync();
 
-            // Auto detect JSON object or array
-            JToken parsed = JToken.Parse(rawBody);
-
-            // Return actual JSON object (not string)
-            return Ok(new
+            try
             {
-                Status = (int)response.StatusCode,
-                StatusText = response.ReasonPhrase,
-                body = rawBody
-            });
+                var response = await _httpClient.SendAsync(httpRequest);
+                // Relay the body as-is; upstream may return JSON, text, HTML or nothing at all.
+                var rawBody = await response.Content.ReadAsStringAsync();
+
+                return Ok(new
+                {
+                    Status = (int)response.StatusCode,
+                    StatusText = response.ReasonPhrase,
+                    body = rawBody
+                });
+            }
+            catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException)
+            {
+                return StatusCode(502, ApiResponse.Error(502, $"Upstream request failed: {ex.Message}"));
+            }
         }
     }
 }
