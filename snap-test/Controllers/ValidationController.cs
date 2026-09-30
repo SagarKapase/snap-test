@@ -185,7 +185,7 @@ namespace snap_test.Controllers
             {
                 return ProblemResult(400, new
                 {
-                    type = "https://apibee.dev/problems/unknown-fields",
+                    type = "https://example.com/problems/unknown-fields",
                     title = "Request body contains unknown fields.",
                     status = 400,
                     detail = $"Allowed fields: {string.Join(", ", allowed)} (names are case-sensitive).",
@@ -256,7 +256,7 @@ namespace snap_test.Controllers
 
             return ProblemResult(p.Status, new Dictionary<string, object?>
             {
-                ["type"] = $"https://apibee.dev/problems/{type.ToLowerInvariant()}",
+                ["type"] = $"https://example.com/problems/{type.ToLowerInvariant()}",
                 ["title"] = p.Title,
                 ["status"] = p.Status,
                 ["detail"] = p.Detail,
@@ -269,7 +269,7 @@ namespace snap_test.Controllers
         {
             ["bad-request"] = (400, "Bad Request", "The request body could not be parsed as JSON.", new() { ["line"] = 3, ["column"] = 14 }),
             ["unauthorized"] = (401, "Unauthorized", "The access token is missing, expired or invalid.", new()),
-            ["payment-required"] = (402, "Payment Required", "Your trial has ended. Upgrade your plan to continue.", new() { ["plan"] = "free", ["upgradeUrl"] = "https://apibee.dev/pricing" }),
+            ["payment-required"] = (402, "Payment Required", "Your trial has ended. Upgrade your plan to continue.", new() { ["plan"] = "free", ["upgradeUrl"] = "https://example.com/pricing" }),
             ["forbidden"] = (403, "Forbidden", "Your role 'viewer' cannot delete projects.", new() { ["requiredRole"] = "admin" }),
             ["not-found"] = (404, "Not Found", "Order 9999 does not exist.", new() { ["resource"] = "order", ["id"] = 9999 }),
             ["conflict"] = (409, "Conflict", "The resource was modified by another request. Reload and try again.", new() { ["currentVersion"] = 7, ["yourVersion"] = 6 }),
@@ -288,7 +288,7 @@ namespace snap_test.Controllers
 
         private ObjectResult ValidationFailed(Dictionary<string, List<string>> errors) => ProblemResult(422, new
         {
-            type = "https://apibee.dev/problems/validation-error",
+            type = "https://example.com/problems/validation-error",
             title = "One or more fields failed validation.",
             status = 422,
             detail = $"{errors.Count} field(s) failed validation.",

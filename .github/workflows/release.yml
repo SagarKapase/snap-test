@@ -1,0 +1,178 @@
+# Builds release artifacts and publishes a GitHub Release + Docker image when a version tag is pushed:
+#   git tag v1.0.0 && git push origin v1.0.0
+# Manual runs (Actions tab -> Release -> Run workflow) build and upload the artifacts to the run only;
+# they never publish a release or an image.
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to build, e.g. 1.0.0 (artifacts only; nothing is published)"
+        required: true
+        default: "0.0.0-dev"
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_NOLOGO: "true"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+  PROJECT: snap-test/snap-test.csproj
+
+jobs:
+  version:
+    name: Resolve version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+      prerelease: ${{ steps.v.outputs.prerelease }}
+    steps:
+      - id: v
+        shell: bash
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then V="$INPUT_VERSION"; else V="${GITHUB_REF_NAME#v}"; fi
+          # Strict semver check: the value flows into file names and tags.
+          if ! [[ "$V" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::'$V' is not a valid version (expected e.g. 1.2.3 or 1.2.3-beta.1)"; exit 1
+          fi
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+          if [[ "$V" == *-* ]]; then echo "prerelease=true" >> "$GITHUB_OUTPUT"; else echo "prerelease=false" >> "$GITHUB_OUTPUT"; fi
+
+  build:
+    name: Build ${{ matrix.rid }}
+    needs: version
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - { rid: win-x64,     os: ubuntu-latest, archive: zip }
+          - { rid: linux-x64,   os: ubuntu-latest, archive: tar.gz }
+          - { rid: linux-arm64, os: ubuntu-latest, archive: tar.gz }
+          # macOS builds run on macOS so the executable is code-signed (ad hoc) and can start on Apple Silicon.
+          - { rid: osx-x64,     os: macos-latest,  archive: tar.gz }
+          - { rid: osx-arm64,   os: macos-latest,  archive: tar.gz }
+          # Framework-dependent build: runs anywhere with the .NET 9 runtime (`dotnet snap-test.dll`).
+          - { rid: portable,    os: ubuntu-latest, archive: zip }
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+      RID: ${{ matrix.rid }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Publish
+        shell: bash
+        run: |
+          NAME="apibee-$VERSION-$RID"
+          echo "NAME=$NAME" >> "$GITHUB_ENV"
+          if [ "$RID" = "portable" ]; then
+            dotnet publish "$PROJECT" -c Release -o "out/$NAME" -p:Version="$VERSION" -p:UseAppHost=false
+          else
+            dotnet publish "$PROJECT" -c Release -r "$RID" --self-contained true \
+              -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true -p:Version="$VERSION" -o "out/$NAME"
+          fi
+          cp LICENSE THIRD-PARTY-NOTICES.md README.md "out/$NAME/"
+          rm -f out/"$NAME"/*.pdb out/"$NAME"/appsettings.Development.json
+
+      - name: Smoke test (linux-x64)
+        if: matrix.rid == 'linux-x64'
+        shell: bash
+        run: |
+          ./out/$NAME/snap-test --urls http://127.0.0.1:5251 > app.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:5251/api/health && break; sleep 1; done
+          curl -fsS http://127.0.0.1:5251/api/health
+          curl -fsS http://127.0.0.1:5251/openapi/v1.json -o /dev/null
+          curl -fsS "http://127.0.0.1:5251/api/Products?limit=1" -o /dev/null
+          kill %1 || true
+
+      - name: Archive
+        shell: bash
+        run: |
+          mkdir -p dist
+          cd out
+          if [ "${{ matrix.archive }}" = "zip" ]; then zip -qr "../dist/$NAME.zip" "$NAME"; else tar -czf "../dist/$NAME.tar.gz" "$NAME"; fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.NAME }}
+          path: dist/*
+          if-no-files-found: error
+
+  release:
+    name: Publish GitHub Release
+    needs: [version, build]
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+      PRERELEASE: ${{ needs.version.outputs.prerelease }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Checksums
+        run: cd dist && sha256sum * > SHA256SUMS.txt && cat SHA256SUMS.txt
+
+      - name: Create release
+        shell: bash
+        run: |
+          FLAGS=()
+          if [ "$PRERELEASE" = "true" ]; then FLAGS+=(--prerelease); fi
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --title "APIBee $VERSION" --generate-notes --verify-tag "${FLAGS[@]}"
+
+  docker:
+    name: Publish Docker image
+    needs: [version, build]
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+      PRERELEASE: ${{ needs.version.outputs.prerelease }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Image name
+        shell: bash
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/apibee"
+          TAGS="$IMAGE:$VERSION"
+          if [ "$PRERELEASE" = "false" ]; then TAGS="$TAGS,$IMAGE:latest"; fi
+          echo "TAGS=$TAGS" >> "$GITHUB_ENV"
+
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: snap-test/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ env.TAGS }}
+          build-args: VERSION=${{ env.VERSION }}

@@ -24,7 +24,7 @@ namespace snap_test.Controllers
         private const int MaxBodyBytes = 1024 * 1024;
 
         private static readonly XNamespace CalcNs = "http://tempuri.org/";
-        private static readonly XNamespace CountryNs = "http://apibee.dev/countries";
+        private static readonly XNamespace CountryNs = "http://example.com/countries";
         private static readonly string[] CalcOperations = { "Add", "Subtract", "Multiply", "Divide" };
 
         private static readonly (string Code, string Name, string Capital, string Currency, string PhoneCode, string Continent, long Population)[] Countries =
@@ -156,12 +156,12 @@ namespace snap_test.Controllers
         // -------------------- COUNTRIES --------------------
         /// <summary>Call a countries operation: GetCountryInfo or ListCountries.</summary>
         /// <remarks>
-        /// Namespace <c>http://apibee.dev/countries</c>. For SOAP 1.1 the optional SOAPAction is
-        /// <c>"http://apibee.dev/countries/GetCountryInfo"</c>.
+        /// Namespace <c>http://example.com/countries</c>. For SOAP 1.1 the optional SOAPAction is
+        /// <c>"http://example.com/countries/GetCountryInfo"</c>.
         /// <code>
         /// &lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
         ///   &lt;soap:Body&gt;
-        ///     &lt;GetCountryInfo xmlns="http://apibee.dev/countries"&gt;&lt;countryCode&gt;IN&lt;/countryCode&gt;&lt;/GetCountryInfo&gt;
+        ///     &lt;GetCountryInfo xmlns="http://example.com/countries"&gt;&lt;countryCode&gt;IN&lt;/countryCode&gt;&lt;/GetCountryInfo&gt;
         ///   &lt;/soap:Body&gt;
         /// &lt;/soap:Envelope&gt;
         /// </code>

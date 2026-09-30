@@ -208,11 +208,11 @@ Content-Type: application/soap+xml; charset=utf-8
 ### Countries: GetCountryInfo
 POST {{host}}/api/soap/countries
 Content-Type: text/xml; charset=utf-8
-SOAPAction: "http://apibee.dev/countries/GetCountryInfo"
+SOAPAction: "http://example.com/countries/GetCountryInfo"
 
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
   <soap:Body>
-    <GetCountryInfo xmlns="http://apibee.dev/countries"><countryCode>IN</countryCode></GetCountryInfo>
+    <GetCountryInfo xmlns="http://example.com/countries"><countryCode>IN</countryCode></GetCountryInfo>
   </soap:Body>
 </soap:Envelope>
 
@@ -221,7 +221,7 @@ POST {{host}}/api/soap/countries
 Content-Type: text/xml; charset=utf-8
 
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-  <soap:Body><ListCountries xmlns="http://apibee.dev/countries"/></soap:Body>
+  <soap:Body><ListCountries xmlns="http://example.com/countries"/></soap:Body>
 </soap:Envelope>
 
 ### ==================== VALIDATION ====================

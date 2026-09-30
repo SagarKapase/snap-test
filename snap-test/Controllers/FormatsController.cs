@@ -15,7 +15,7 @@ namespace snap_test.Controllers
     [Route("api/formats")]
     public class FormatsController : ControllerBase
     {
-        private const string SampleJson = "{\"id\":1,\"name\":\"Alice Johnson\",\"email\":\"alice@apibee.dev\",\"roles\":[\"admin\",\"editor\"],\"active\":true,\"score\":98.5,\"manager\":null}";
+        private const string SampleJson = "{\"id\":1,\"name\":\"Alice Johnson\",\"email\":\"alice@example.com\",\"roles\":[\"admin\",\"editor\"],\"active\":true,\"score\":98.5,\"manager\":null}";
 
         // -------------------- INDEX --------------------
         /// <summary>List every available format and special-case endpoint.</summary>
@@ -54,7 +54,7 @@ namespace snap_test.Controllers
         public IActionResult Yaml() => Content(
             "id: 1\n" +
             "name: Alice Johnson\n" +
-            "email: alice@apibee.dev\n" +
+            "email: alice@example.com\n" +
             "active: true\n" +
             "score: 98.5\n" +
             "manager: null\n" +
@@ -138,10 +138,10 @@ namespace snap_test.Controllers
             "<rss version=\"2.0\">\n" +
             "  <channel>\n" +
             "    <title>APIBee Blog</title>\n" +
-            "    <link>https://apibee.dev/blog</link>\n" +
+            "    <link>https://example.com/blog</link>\n" +
             "    <description>Hardcoded RSS feed for testing.</description>\n" +
-            "    <item><title>Getting started with APIBee</title><link>https://apibee.dev/blog/1</link><guid>apibee-post-1</guid><pubDate>Tue, 01 Jul 2025 10:00:00 GMT</pubDate><description>Learn the basics.</description></item>\n" +
-            "    <item><title>Testing pagination</title><link>https://apibee.dev/blog/2</link><guid>apibee-post-2</guid><pubDate>Mon, 07 Jul 2025 09:30:00 GMT</pubDate><description>Limit, page and offset.</description></item>\n" +
+            "    <item><title>Getting started with APIBee</title><link>https://example.com/blog/1</link><guid>apibee-post-1</guid><pubDate>Tue, 01 Jul 2025 10:00:00 GMT</pubDate><description>Learn the basics.</description></item>\n" +
+            "    <item><title>Testing pagination</title><link>https://example.com/blog/2</link><guid>apibee-post-2</guid><pubDate>Mon, 07 Jul 2025 09:30:00 GMT</pubDate><description>Limit, page and offset.</description></item>\n" +
             "  </channel>\n" +
             "</rss>\n",
             "application/rss+xml; charset=utf-8");
@@ -155,9 +155,9 @@ namespace snap_test.Controllers
             "  <title>APIBee Blog</title>\n" +
             "  <id>urn:uuid:7c0e5f5a-1b1e-4a53-9a47-3d3c2f5e8a01</id>\n" +
             "  <updated>2025-07-07T09:30:00Z</updated>\n" +
-            "  <link href=\"https://apibee.dev/blog\"/>\n" +
-            "  <entry><title>Getting started with APIBee</title><id>urn:apibee:post:1</id><updated>2025-07-01T10:00:00Z</updated><link href=\"https://apibee.dev/blog/1\"/><summary>Learn the basics.</summary></entry>\n" +
-            "  <entry><title>Testing pagination</title><id>urn:apibee:post:2</id><updated>2025-07-07T09:30:00Z</updated><link href=\"https://apibee.dev/blog/2\"/><summary>Limit, page and offset.</summary></entry>\n" +
+            "  <link href=\"https://example.com/blog\"/>\n" +
+            "  <entry><title>Getting started with APIBee</title><id>urn:apibee:post:1</id><updated>2025-07-01T10:00:00Z</updated><link href=\"https://example.com/blog/1\"/><summary>Learn the basics.</summary></entry>\n" +
+            "  <entry><title>Testing pagination</title><id>urn:apibee:post:2</id><updated>2025-07-07T09:30:00Z</updated><link href=\"https://example.com/blog/2\"/><summary>Limit, page and offset.</summary></entry>\n" +
             "</feed>\n",
             "application/atom+xml; charset=utf-8");
 
@@ -169,7 +169,7 @@ namespace snap_test.Controllers
             "VERSION:2.0\r\n" +
             "PRODID:-//APIBee//Sample Calendar//EN\r\n" +
             "BEGIN:VEVENT\r\n" +
-            "UID:apibee-event-1@apibee.dev\r\n" +
+            "UID:apibee-event-1@example.com\r\n" +
             "DTSTAMP:20250701T100000Z\r\n" +
             "DTSTART:20250715T090000Z\r\n" +
             "DTEND:20250715T100000Z\r\n" +
@@ -270,11 +270,11 @@ namespace snap_test.Controllers
             {
                 "application/json" => Content(SampleJson, "application/json; charset=utf-8"),
                 "application/xml" or "text/xml" => Content(
-                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?><user><id>1</id><name>Alice Johnson</name><email>alice@apibee.dev</email><active>true</active></user>",
+                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?><user><id>1</id><name>Alice Johnson</name><email>alice@example.com</email><active>true</active></user>",
                     chosen + "; charset=utf-8"),
-                "text/html" => Content("<!DOCTYPE html><html><body><h1>Alice Johnson</h1><p>alice@apibee.dev</p></body></html>", "text/html; charset=utf-8"),
-                "text/plain" => Content("id=1\nname=Alice Johnson\nemail=alice@apibee.dev\nactive=true\n", "text/plain; charset=utf-8"),
-                "text/csv" => Content("id,name,email,active\n1,Alice Johnson,alice@apibee.dev,true\n", "text/csv; charset=utf-8"),
+                "text/html" => Content("<!DOCTYPE html><html><body><h1>Alice Johnson</h1><p>alice@example.com</p></body></html>", "text/html; charset=utf-8"),
+                "text/plain" => Content("id=1\nname=Alice Johnson\nemail=alice@example.com\nactive=true\n", "text/plain; charset=utf-8"),
+                "text/csv" => Content("id,name,email,active\n1,Alice Johnson,alice@example.com,true\n", "text/csv; charset=utf-8"),
                 _ => StatusCode(406, new
                 {
                     status = 406,

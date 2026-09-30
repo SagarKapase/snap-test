@@ -24,8 +24,8 @@ namespace snap_test.Controllers
         // Hardcoded accounts for the session flow.
         private static readonly Dictionary<string, (string Password, object Profile)> Accounts = new(StringComparer.OrdinalIgnoreCase)
         {
-            ["test"] = ("test123", new { id = 1, username = "test", name = "Test User", email = "test@apibee.dev", role = "user" }),
-            ["admin"] = ("admin123", new { id = 2, username = "admin", name = "Admin User", email = "admin@apibee.dev", role = "admin" })
+            ["test"] = ("test123", new { id = 1, username = "test", name = "Test User", email = "test@example.com", role = "user" }),
+            ["admin"] = ("admin123", new { id = 2, username = "admin", name = "Admin User", email = "admin@example.com", role = "admin" })
         };
 
         private static readonly ConcurrentDictionary<string, (string Username, DateTime ExpiresAt)> Sessions = new();
