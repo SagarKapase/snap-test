@@ -6,7 +6,13 @@ using snap_test.Swagger;
 using System.Text;
 using System.Text.Encodings.Web;
 
-var builder = WebApplication.CreateBuilder(args);
+// Read appsettings.json from the app's own folder rather than the shell's current directory, so the released
+// binaries work when launched from anywhere (e.g. ./apibee-1.0.0-linux-x64/snap-test).
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = AppContext.BaseDirectory
+});
 
 // Add services to the container.
 
@@ -41,6 +47,10 @@ builder.Services
     .AddQueryType<Query>()
     .AddMutationType<Mutation>();
 
+// Fail fast at startup: a missing key would otherwise surface as a 500 on every request.
+var jwtKey = builder.Configuration["Jwt:Key"]
+    ?? throw new InvalidOperationException("Missing configuration value 'Jwt:Key'. Set it in appsettings.json or the Jwt__Key environment variable.");
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -50,7 +60,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
 });
 var app = builder.Build();
