@@ -1,21 +1,19 @@
-# Build context is the repository root (so LICENSE and THIRD-PARTY-NOTICES.md can be copied in):
-#   docker build -f snap-test/Dockerfile -t apibee .
-# Visual Studio uses the same context via <DockerfileContext>..</DockerfileContext> in snap-test.csproj.
+# Works with either build context:
+#   repository root:  docker build -f snap-test/Dockerfile .   (GitHub release workflow, Visual Studio)
+#   project folder:   docker build snap-test                   (e.g. Render with Root Directory = snap-test)
+# LICENSE and THIRD-PARTY-NOTICES.md are copied into the publish output by the csproj whenever they are
+# inside the build context (always true for the repository-root builds used for published images).
 
-# Base image for building. Runs on the build machine's own architecture: the output is framework-dependent IL
+# Build stage. Runs on the build machine's own architecture: the output is framework-dependent IL
 # (UseAppHost=false), so one build serves every target platform and multi-arch builds need no emulation.
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 ARG VERSION=1.0.0
 WORKDIR /src
-
-# Copy csproj first so the restore layer is cached
-COPY ["snap-test/snap-test.csproj", "snap-test/"]
-RUN dotnet restore "snap-test/snap-test.csproj"
-
-# Copy full project
-COPY snap-test/ snap-test/
-RUN dotnet publish "snap-test/snap-test.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false /p:Version=$VERSION
+COPY . .
+RUN set -eu; \
+    if [ -f snap-test/snap-test.csproj ]; then PROJECT=snap-test/snap-test.csproj; else PROJECT=snap-test.csproj; fi; \
+    dotnet publish "$PROJECT" -c "$BUILD_CONFIGURATION" -o /app/publish -p:UseAppHost=false -p:Version="$VERSION"
 
 # Runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
@@ -27,8 +25,8 @@ LABEL org.opencontainers.image.title="APIBee" \
       org.opencontainers.image.version="$VERSION"
 WORKDIR /app
 COPY --from=build /app/publish .
-COPY ["LICENSE", "THIRD-PARTY-NOTICES.md", "./"]
+# Listens on 8080 by default, or on $PORT when the host sets it (Render, Railway, Heroku, Cloud Run).
 EXPOSE 8080
-# The aspnet base image listens on 8080 and provides a non-root "app" user.
+# The aspnet base image provides a non-root "app" user.
 USER $APP_UID
 ENTRYPOINT ["dotnet", "snap-test.dll"]

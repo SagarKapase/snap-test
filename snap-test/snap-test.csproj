@@ -31,4 +31,11 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
   </ItemGroup>
 
+  <!-- Ship the license texts with every build/publish output (release archives, Docker image). Conditional so
+       builds whose context is only this folder (e.g. a Docker build context of snap-test/) still succeed. -->
+  <ItemGroup>
+    <None Include="..\LICENSE" Condition="Exists('..\LICENSE')" Link="LICENSE" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\THIRD-PARTY-NOTICES.md" Condition="Exists('..\THIRD-PARTY-NOTICES.md')" Link="THIRD-PARTY-NOTICES.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
