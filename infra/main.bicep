@@ -6,6 +6,10 @@
 // To add the app to a Container Apps environment you already have (e.g. when the subscription allows only one
 // environment per region), pass its resource ID:  -p existingEnvironmentId=<environment resource id>
 //
+// Production (testingapis.com) settings live in infra/main.parameters.json. Redeploy with
+//   az deployment group create -g rg-apibee -f infra/main.bicep -p @infra/main.parameters.json
+// Deploying WITHOUT that file leaves customDomains empty and detaches the custom domains from the app.
+//
 // The app keeps all data in memory, so it must run exactly ONE replica: with two, a record created on one
 // replica would be missing on the other. minReplicas = maxReplicas = 1 also means it never sleeps (no cold starts).
 
@@ -28,6 +32,9 @@ param memory string = '0.5Gi'
 param existingEnvironmentId string = ''
 
 var createEnvironment = empty(existingEnvironmentId)
+
+@description('Custom domains bound to managed certificates in the environment: [{ name, certificateName }].')
+param customDomains array = []
 
 @secure()
 @description('JWT signing key (32+ characters). A random key is generated on every deployment when omitted.')
@@ -69,6 +76,11 @@ resource app 'Microsoft.App/containerApps@2024-03-01' = {
         targetPort: 8080
         transport: 'auto'      // HTTP/1.1 + HTTP/2; WebSockets and server-sent events work
         allowInsecure: false   // plain HTTP is redirected to HTTPS
+        customDomains: [for d in customDomains: {
+          name: d.name
+          certificateId: '${createEnvironment ? env.id : existingEnvironmentId}/managedCertificates/${d.certificateName}'
+          bindingType: 'SniEnabled'
+        }]
       }
       secrets: [
         { name: 'jwt-key', value: jwtKey }

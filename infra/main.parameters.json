@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "image": {
+      "value": "ghcr.io/sagarkapase/apibee:1.0.2"
+    },
+    "existingEnvironmentId": {
+      "value": "/subscriptions/39009242-fc91-4802-8db1-070cee814e79/resourceGroups/deploymentdemo-rg/providers/Microsoft.App/managedEnvironments/managedEnvironment-deploymentdemor-a60e"
+    },
+    "customDomains": {
+      "value": [
+        {
+          "name": "testingapis.com",
+          "certificateName": "mc-managedenviron-testingapis-com-3563"
+        },
+        {
+          "name": "www.testingapis.com",
+          "certificateName": "mc-managedenviron-www-testingapis--0932"
+        }
+      ]
+    }
+  }
+}
