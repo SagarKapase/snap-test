@@ -18,7 +18,7 @@ RUN set -eu; \
 # Runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 ARG VERSION=1.0.0
-LABEL org.opencontainers.image.title="APIBee" \
+LABEL org.opencontainers.image.title="TestingAPIs" \
       org.opencontainers.image.description="Hardcoded dummy APIs for testing HTTP clients, API tools and automation suites" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.source="https://github.com/SagarKapase/snap-test" \

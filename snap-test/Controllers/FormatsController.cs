@@ -79,9 +79,9 @@ namespace snap_test.Controllers
         public IActionResult Html() => Content(
             "<!DOCTYPE html>\n" +
             "<html lang=\"en\">\n" +
-            "<head><meta charset=\"utf-8\"><title>APIBee Sample Page</title></head>\n" +
+            "<head><meta charset=\"utf-8\"><title>TestingAPIs Sample Page</title></head>\n" +
             "<body>\n" +
-            "  <h1 id=\"title\">APIBee Sample Page</h1>\n" +
+            "  <h1 id=\"title\">TestingAPIs Sample Page</h1>\n" +
             "  <p class=\"intro\">Hardcoded HTML for testing HTTP clients and HTML parsers.</p>\n" +
             "  <ul id=\"users\">\n" +
             "    <li data-id=\"1\">Alice Johnson</li>\n" +
@@ -98,7 +98,7 @@ namespace snap_test.Controllers
         /// <response code="200">Success.</response>
         [HttpGet("markdown")]
         public IActionResult Markdown() => Content(
-            "# APIBee Sample\n\n" +
+            "# TestingAPIs Sample\n\n" +
             "Hardcoded **Markdown** for testing.\n\n" +
             "## Users\n\n" +
             "| id | name | active |\n" +
@@ -113,7 +113,7 @@ namespace snap_test.Controllers
         /// <response code="200">Success.</response>
         [HttpGet("javascript")]
         public IActionResult JavaScript() => Content(
-            "// APIBee sample script\n" +
+            "// TestingAPIs sample script\n" +
             "const users = [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }];\n" +
             "function greet(user) { return `Hello, ${user.name}!`; }\n" +
             "console.log(users.map(greet).join('\\n'));\n",
@@ -123,7 +123,7 @@ namespace snap_test.Controllers
         /// <response code="200">Success.</response>
         [HttpGet("css")]
         public IActionResult Css() => Content(
-            "/* APIBee sample stylesheet */\n" +
+            "/* TestingAPIs sample stylesheet */\n" +
             ":root { --bee-yellow: #ffc107; --bee-black: #1e1e1e; }\n" +
             "body { font-family: system-ui, sans-serif; background: var(--bee-black); color: var(--bee-yellow); }\n" +
             "h1 { font-size: 2rem; margin: 0 0 1rem; }\n",
@@ -137,10 +137,10 @@ namespace snap_test.Controllers
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<rss version=\"2.0\">\n" +
             "  <channel>\n" +
-            "    <title>APIBee Blog</title>\n" +
+            "    <title>TestingAPIs Blog</title>\n" +
             "    <link>https://example.com/blog</link>\n" +
             "    <description>Hardcoded RSS feed for testing.</description>\n" +
-            "    <item><title>Getting started with APIBee</title><link>https://example.com/blog/1</link><guid>apibee-post-1</guid><pubDate>Tue, 01 Jul 2025 10:00:00 GMT</pubDate><description>Learn the basics.</description></item>\n" +
+            "    <item><title>Getting started with TestingAPIs</title><link>https://example.com/blog/1</link><guid>apibee-post-1</guid><pubDate>Tue, 01 Jul 2025 10:00:00 GMT</pubDate><description>Learn the basics.</description></item>\n" +
             "    <item><title>Testing pagination</title><link>https://example.com/blog/2</link><guid>apibee-post-2</guid><pubDate>Mon, 07 Jul 2025 09:30:00 GMT</pubDate><description>Limit, page and offset.</description></item>\n" +
             "  </channel>\n" +
             "</rss>\n",
@@ -152,11 +152,11 @@ namespace snap_test.Controllers
         public IActionResult Atom() => Content(
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<feed xmlns=\"http://www.w3.org/2005/Atom\">\n" +
-            "  <title>APIBee Blog</title>\n" +
+            "  <title>TestingAPIs Blog</title>\n" +
             "  <id>urn:uuid:7c0e5f5a-1b1e-4a53-9a47-3d3c2f5e8a01</id>\n" +
             "  <updated>2025-07-07T09:30:00Z</updated>\n" +
             "  <link href=\"https://example.com/blog\"/>\n" +
-            "  <entry><title>Getting started with APIBee</title><id>urn:apibee:post:1</id><updated>2025-07-01T10:00:00Z</updated><link href=\"https://example.com/blog/1\"/><summary>Learn the basics.</summary></entry>\n" +
+            "  <entry><title>Getting started with TestingAPIs</title><id>urn:apibee:post:1</id><updated>2025-07-01T10:00:00Z</updated><link href=\"https://example.com/blog/1\"/><summary>Learn the basics.</summary></entry>\n" +
             "  <entry><title>Testing pagination</title><id>urn:apibee:post:2</id><updated>2025-07-07T09:30:00Z</updated><link href=\"https://example.com/blog/2\"/><summary>Limit, page and offset.</summary></entry>\n" +
             "</feed>\n",
             "application/atom+xml; charset=utf-8");
@@ -167,13 +167,13 @@ namespace snap_test.Controllers
         public IActionResult ICal() => Content(
             "BEGIN:VCALENDAR\r\n" +
             "VERSION:2.0\r\n" +
-            "PRODID:-//APIBee//Sample Calendar//EN\r\n" +
+            "PRODID:-//TestingAPIs//Sample Calendar//EN\r\n" +
             "BEGIN:VEVENT\r\n" +
             "UID:apibee-event-1@example.com\r\n" +
             "DTSTAMP:20250701T100000Z\r\n" +
             "DTSTART:20250715T090000Z\r\n" +
             "DTEND:20250715T100000Z\r\n" +
-            "SUMMARY:APIBee Sprint Planning\r\n" +
+            "SUMMARY:TestingAPIs Sprint Planning\r\n" +
             "LOCATION:Conference Room A\r\n" +
             "END:VEVENT\r\n" +
             "END:VCALENDAR\r\n",
@@ -187,7 +187,7 @@ namespace snap_test.Controllers
             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"200\" viewBox=\"0 0 200 200\">\n" +
             "  <rect width=\"200\" height=\"200\" fill=\"#1e1e1e\"/>\n" +
             "  <polygon points=\"100,20 170,60 170,140 100,180 30,140 30,60\" fill=\"#ffc107\"/>\n" +
-            "  <text x=\"100\" y=\"110\" font-family=\"sans-serif\" font-size=\"28\" text-anchor=\"middle\" fill=\"#1e1e1e\">APIBee</text>\n" +
+            "  <text x=\"100\" y=\"110\" font-family=\"sans-serif\" font-size=\"28\" text-anchor=\"middle\" fill=\"#1e1e1e\">TestingAPIs</text>\n" +
             "</svg>\n",
             "image/svg+xml; charset=utf-8");
 

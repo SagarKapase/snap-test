@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.WebUtilities;
 namespace snap_test.Helpers
 {
     /// <summary>
-    /// Builds the standard APIBee error body: { status, error, message }.
+    /// Builds the standard TestingAPIs error body: { status, error, message }.
     /// </summary>
     public static class ApiResponse
     {

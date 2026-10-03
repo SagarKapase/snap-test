@@ -45,7 +45,7 @@ namespace snap_test.Controllers
 
             return Ok(new
             {
-                name = "APIBee",
+                name = "TestingAPIs",
                 description = "Hardcoded dummy APIs for testing HTTP clients. Add ?delay=N or ?error=CODE to any request.",
                 graphql = "/graphql",
                 websockets = new[] { "/ws/echo", "/ws/ticker" },

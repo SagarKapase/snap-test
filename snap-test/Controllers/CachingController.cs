@@ -12,7 +12,7 @@ namespace snap_test.Controllers
     [Route("api/cache")]
     public class CachingController : ControllerBase
     {
-        private const string DefaultTitle = "APIBee cached document";
+        private const string DefaultTitle = "TestingAPIs cached document";
         private const string DefaultContent = "Send If-None-Match to get a 304, and If-Match on PUT to make a conditional update.";
         private const string DefaultUpdatedAt = "2025-01-01T00:00:00Z";
 
@@ -20,11 +20,11 @@ namespace snap_test.Controllers
 
         private static readonly Dictionary<string, string> Greetings = new()
         {
-            ["en"] = "Hello, welcome to APIBee!",
-            ["es"] = "¡Hola, bienvenido a APIBee!",
-            ["fr"] = "Bonjour, bienvenue sur APIBee !",
-            ["de"] = "Hallo, willkommen bei APIBee!",
-            ["hi"] = "नमस्ते, APIBee में आपका स्वागत है!"
+            ["en"] = "Hello, welcome to TestingAPIs!",
+            ["es"] = "¡Hola, bienvenido a TestingAPIs!",
+            ["fr"] = "Bonjour, bienvenue sur TestingAPIs !",
+            ["de"] = "Hallo, willkommen bei TestingAPIs!",
+            ["hi"] = "नमस्ते, TestingAPIs में आपका स्वागत है!"
         };
 
         // Versioned in-memory document behind the ETag endpoints.

@@ -1,6 +1,6 @@
 # Third-party notices
 
-APIBee (snap-test) is licensed under the MIT License — see [LICENSE](LICENSE).
+TestingAPIs (snap-test) is licensed under the MIT License — see [LICENSE](LICENSE).
 
 The source repository contains no third-party code: the components below are restored from NuGet when the project
 is built. **Binary releases** (the zip archives and the Docker image) include these components, each under its own

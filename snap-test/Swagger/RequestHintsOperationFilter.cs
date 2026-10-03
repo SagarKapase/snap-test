@@ -20,6 +20,7 @@ namespace snap_test.Swagger
 
         private static readonly HeaderHint[] Headers =
         {
+            new("POST", "api/proxy/call", "X-Proxy-Key", true, "Proxy access key (the server's Proxy:AccessKey setting). Missing or wrong returns 401."),
             new("POST", "api/payments", "Idempotency-Key", true, "Unique key per logical payment. Same key + same body replays the stored response; a different body returns 422.", "3f2b9c1e-7d4a-4e8b-9a61-0c5d2e8f1a7b"),
             new("GET", "api/ratelimit", "X-Client-Id", false, "Rate-limit bucket id (defaults to your IP). Use a unique value to get a fresh window.", "swagger-demo"),
             new("GET", "api/ratelimit/status", "X-Client-Id", false, "Rate-limit bucket id (defaults to your IP).", "swagger-demo"),

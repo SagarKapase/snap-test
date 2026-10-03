@@ -11,7 +11,7 @@ namespace snap_test.Helpers
     {
         // -------------------- TEXT SAMPLES --------------------
         public const string Text =
-            "APIBee sample text file\n" +
+            "TestingAPIs sample text file\n" +
             "=======================\n\n" +
             "This is plain text served for testing HTTP clients.\n" +
             "Line 4: The quick brown fox jumps over the lazy dog.\n" +
@@ -169,7 +169,7 @@ namespace snap_test.Helpers
 
         // -------------------- PDF BUILDER --------------------
         /// <summary>Minimal valid single-page PDF 1.4 with xref offsets computed from the actual bytes.</summary>
-        public static byte[] Pdf(string title = "APIBee Sample PDF")
+        public static byte[] Pdf(string title = "TestingAPIs Sample PDF")
         {
             string Escape(string s) => s.Replace("\\", "\\\\").Replace("(", "\\(").Replace(")", "\\)");
 
@@ -185,7 +185,7 @@ namespace snap_test.Helpers
                 "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>",
                 "<< /Length " + Encoding.ASCII.GetByteCount(stream) + " >>\nstream\n" + stream + "endstream",
                 "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
-                "<< /Title (" + Escape(title) + ") /Producer (APIBee) >>"
+                "<< /Title (" + Escape(title) + ") /Producer (TestingAPIs) >>"
             };
 
             var sb = new StringBuilder();

@@ -14,7 +14,7 @@
     <!-- Assembly / release metadata. CI overrides Version from the git tag (-p:Version=x.y.z). -->
     <Version>1.0.0</Version>
     <Authors>Sagar Kapase</Authors>
-    <Product>APIBee</Product>
+    <Product>TestingAPIs</Product>
     <Description>Hardcoded dummy APIs for testing HTTP clients, API tools and automation suites.</Description>
     <Copyright>Copyright (c) 2026 Sagar Kapase</Copyright>
     <RepositoryUrl>https://github.com/SagarKapase/snap-test</RepositoryUrl>

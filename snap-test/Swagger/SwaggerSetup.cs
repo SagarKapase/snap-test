@@ -13,7 +13,7 @@ namespace snap_test.Swagger
         public const string DocumentName = "v1";
 
         private const string Description = """
-            **APIBee** — hardcoded dummy APIs for testing HTTP clients, API tools and automation suites.
+            **TestingAPIs** — hardcoded dummy APIs for testing HTTP clients, API tools and automation suites.
             All data is in-memory and resets when the server restarts.
 
             ### Works on every endpoint
@@ -49,7 +49,7 @@ namespace snap_test.Swagger
             {
                 c.SwaggerDoc(DocumentName, new OpenApiInfo
                 {
-                    Title = "APIBee — snap-test API",
+                    Title = "TestingAPIs",
                     Version = "v1",
                     Description = Description
                 });
@@ -94,9 +94,9 @@ namespace snap_test.Swagger
             app.UseSwagger(o => o.RouteTemplate = "openapi/{documentName}.json");
             app.UseSwaggerUI(ui =>
             {
-                ui.SwaggerEndpoint($"/openapi/{DocumentName}.json", "APIBee v1");
+                ui.SwaggerEndpoint($"/openapi/{DocumentName}.json", "TestingAPIs v1");
                 ui.RoutePrefix = "swagger";
-                ui.DocumentTitle = "APIBee API docs";
+                ui.DocumentTitle = "TestingAPIs API docs";
                 ui.DocExpansion(DocExpansion.None);   // 400+ operations: start collapsed
                 ui.EnableFilter();                    // tag search box
                 ui.EnableDeepLinking();
@@ -107,7 +107,7 @@ namespace snap_test.Swagger
 
                 // OAuth2 "Authorize" button: public client + PKCE, no secret needed in the browser.
                 ui.OAuthClientId("apibee-public");
-                ui.OAuthAppName("APIBee Swagger UI");
+                ui.OAuthAppName("TestingAPIs Swagger UI");
                 ui.OAuthUsePkce();
             });
 

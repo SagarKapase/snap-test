@@ -72,7 +72,7 @@ jobs:
       - name: Publish
         shell: bash
         run: |
-          NAME="apibee-$VERSION-$RID"
+          NAME="testingapis-$VERSION-$RID"
           echo "NAME=$NAME" >> "$GITHUB_ENV"
           if [ "$RID" = "portable" ]; then
             dotnet publish "$PROJECT" -c Release -o "out/$NAME" -p:Version="$VERSION" -p:UseAppHost=false
@@ -135,7 +135,7 @@ jobs:
           FLAGS=()
           if [ "$PRERELEASE" = "true" ]; then FLAGS+=(--prerelease); fi
           gh release create "$GITHUB_REF_NAME" dist/* \
-            --title "APIBee $VERSION" --generate-notes --verify-tag "${FLAGS[@]}"
+            --title "TestingAPIs $VERSION" --generate-notes --verify-tag "${FLAGS[@]}"
 
   docker:
     name: Publish Docker image

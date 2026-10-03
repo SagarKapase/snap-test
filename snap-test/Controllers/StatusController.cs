@@ -92,13 +92,13 @@ namespace snap_test.Controllers
             switch (code)
             {
                 case 401:
-                    Response.Headers.WWWAuthenticate = "Basic realm=\"APIBee\"";
+                    Response.Headers.WWWAuthenticate = "Basic realm=\"TestingAPIs\"";
                     break;
                 case 405:
                     Response.Headers.Allow = "GET, POST";
                     break;
                 case 407:
-                    Response.Headers.ProxyAuthenticate = "Basic realm=\"APIBee Proxy\"";
+                    Response.Headers.ProxyAuthenticate = "Basic realm=\"TestingAPIs Proxy\"";
                     break;
                 case 416:
                     Response.Headers.ContentRange = "bytes */0";

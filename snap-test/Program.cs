@@ -32,7 +32,7 @@ builder.Services.AddControllers()
         o.JsonSerializerOptions.MaxDepth = 256;
     });
 
-// APIBee: permissive CORS for a public, no-signup API. Exposes pagination + simulation headers.
+// TestingAPIs: permissive CORS for a public, no-signup API. Exposes pagination + simulation headers.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("ApiBee", policy =>
@@ -73,7 +73,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-// Docs are public in every environment: APIBee is a public test API and the docs are part of the product.
+// Docs are public in every environment: TestingAPIs is a public test API and the docs are part of the product.
 app.UseApiBeeSwagger();
 app.MapGraphQL("/graphql");
 
@@ -81,17 +81,17 @@ app.UseHttpsRedirection();
 
 app.UseCors("ApiBee");
 
-// APIBee: standard + informational headers on every response.
+// TestingAPIs: standard + informational headers on every response.
 app.Use(async (context, next) =>
 {
-    context.Response.Headers["X-Powered-By"] = "APIBee";
+    context.Response.Headers["X-Powered-By"] = "TestingAPIs";
     context.Response.Headers["X-RateLimit-Limit"] = "1000";
     context.Response.Headers["X-RateLimit-Remaining"] = "999";
     context.Response.Headers["X-RateLimit-Reset"] = "1721300000";
     await next();
 });
 
-// APIBee: ?delay= / ?error= simulation (must run before controllers).
+// TestingAPIs: ?delay= / ?error= simulation (must run before controllers).
 app.UseMiddleware<SimulationMiddleware>();
 
 // WebSocket test endpoints (/ws/echo, /ws/ticker).

@@ -1,4 +1,6 @@
-# APIBee
+# TestingAPIs
+
+**Live at [testingapis.com](https://testingapis.com)** — interactive docs at [testingapis.com/swagger](https://testingapis.com/swagger).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/SagarKapase/snap-test?include_prereleases)](https://github.com/SagarKapase/snap-test/releases)
@@ -80,8 +82,9 @@ Test credentials for every auth scheme are listed in Swagger and at `GET /api/au
 Everything here is for testing. All credentials are hardcoded and public, and the JWT signing key in
 `snap-test/appsettings.json` is a published test value. If you deploy this anywhere reachable by others, set your
 own key through the environment (`Jwt__Key=<at least 32 random characters>`) and do not rely on any of the demo
-credentials. `/api/Proxy/call` forwards requests from the server to public URLs; it refuses private, loopback,
-link-local and cloud-metadata addresses (also after redirects). Set `Proxy__AllowPrivateNetworks=true` only for
+credentials. `/api/Proxy/call` forwards requests from the server to public URLs. It requires an `X-Proxy-Key` header matching
+the server's `Proxy__AccessKey` setting (no key configured = proxy disabled), and it refuses private, loopback,
+link-local and cloud-metadata addresses, also after redirects. Set `Proxy__AllowPrivateNetworks=true` only for
 local development.
 
 ## Releasing

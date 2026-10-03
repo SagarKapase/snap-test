@@ -99,7 +99,7 @@ namespace snap_test.Controllers
         [HttpGet("strings")]
         public IActionResult Strings()
         {
-            var longString = string.Concat(Enumerable.Repeat("APIBee ", 1500)).TrimEnd(); // ~10.5 KB
+            var longString = string.Concat(Enumerable.Repeat("TestingAPIs ", 1500)).TrimEnd(); // ~10.5 KB
             var json = new StringBuilder();
             json.Append("{\n");
             json.Append("  \"empty\": \"\",\n");
@@ -120,7 +120,7 @@ namespace snap_test.Controllers
             json.Append("  \"template\": \"{{user.name}} ${env.HOME} <%= secret %>\",\n");
             json.Append("  \"url\": \"https://example.com/search?q=bee&lang=en#results\",\n");
             json.Append("  \"email\": \"alice+test@example.com\",\n");
-            json.Append("  \"base64\": \"QVBJQmVlIHJvY2tz\",\n");
+            json.Append("  \"base64\": \"VGVzdGluZ0FQSXMgcm9ja3M=\",\n");
             json.Append("  \"longStringLength\": ").Append(longString.Length).Append(",\n");
             json.Append("  \"longString\": \"").Append(longString).Append("\"\n");
             json.Append("}\n");

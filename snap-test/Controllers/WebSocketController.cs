@@ -42,7 +42,7 @@ namespace snap_test.Controllers
                 await SendJsonAsync(ws, new
                 {
                     type = "welcome",
-                    message = "Connected to APIBee echo. Every text/binary message is echoed back. Send \"close\" to disconnect."
+                    message = "Connected to TestingAPIs echo. Every text/binary message is echoed back. Send \"close\" to disconnect."
                 }, ct);
 
                 while (ws.State == WebSocketState.Open)

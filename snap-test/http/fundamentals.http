@@ -7,7 +7,7 @@ POST {{host}}/api/echo/anything/you/like?tag=a&tag=b&page=1
 Content-Type: application/json
 X-Custom-Header: hello
 
-{ "name": "APIBee", "tags": ["test", "echo"] }
+{ "name": "TestingAPIs", "tags": ["test", "echo"] }
 
 ### Echo a form post (fields + raw body)
 PUT {{host}}/api/echo
@@ -17,18 +17,18 @@ name=Ada&role=engineer
 
 ### Echo multipart (fields + file metadata)
 POST {{host}}/api/echo
-Content-Type: multipart/form-data; boundary=----APIBee
+Content-Type: multipart/form-data; boundary=----TestingAPIs
 
-------APIBee
+------TestingAPIs
 Content-Disposition: form-data; name="title"
 
 Quarterly report
-------APIBee
+------TestingAPIs
 Content-Disposition: form-data; name="file"; filename="notes.txt"
 Content-Type: text/plain
 
 hello from a file
-------APIBee--
+------TestingAPIs--
 
 ### Request headers only
 GET {{host}}/api/echo/headers

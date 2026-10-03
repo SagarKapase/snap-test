@@ -10,7 +10,7 @@ namespace snap_test.GraphQL
         public User? GetUser(int id) =>
             UserData.Users.FirstOrDefault(u => u.Id == id);
 
-        // -------------------- PRODUCTS / POSTS / TODOS (APIBee stores) --------------------
+        // -------------------- PRODUCTS / POSTS / TODOS (TestingAPIs stores) --------------------
         public List<Product> GetProducts(string? category) =>
             Snapshot(ProductStore.Products, p => category == null || Eq(p.Category, category));
 

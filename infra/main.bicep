@@ -1,4 +1,4 @@
-// APIBee on Azure Container Apps: one always-on replica behind HTTPS.
+// TestingAPIs on Azure Container Apps: one always-on replica behind HTTPS.
 //
 //   az group create -n rg-apibee -l centralindia
 //   az deployment group create -g rg-apibee -f infra/main.bicep -p image=ghcr.io/sagarkapase/apibee:1.0.1
@@ -9,6 +9,7 @@
 // Production (testingapis.com) settings live in infra/main.parameters.json. Redeploy with
 //   az deployment group create -g rg-apibee -f infra/main.bicep -p @infra/main.parameters.json
 // Deploying WITHOUT that file leaves customDomains empty and detaches the custom domains from the app.
+// The proxy key is secret, so it is NOT in that file: add  -p proxyAccessKey=<key>  (omitting it disables the proxy).
 //
 // The app keeps all data in memory, so it must run exactly ONE replica: with two, a record created on one
 // replica would be missing on the other. minReplicas = maxReplicas = 1 also means it never sleeps (no cold starts).
@@ -35,6 +36,13 @@ var createEnvironment = empty(existingEnvironmentId)
 
 @description('Custom domains bound to managed certificates in the environment: [{ name, certificateName }].')
 param customDomains array = []
+
+@secure()
+@description('Access key for /api/Proxy/call (sent by clients in the X-Proxy-Key header). Empty keeps the proxy disabled.')
+param proxyAccessKey string = ''
+
+var appSecrets = concat([{ name: 'jwt-key', value: jwtKey }], empty(proxyAccessKey) ? [] : [{ name: 'proxy-key', value: proxyAccessKey }])
+var proxyEnv = empty(proxyAccessKey) ? [] : [{ name: 'Proxy__AccessKey', secretRef: 'proxy-key' }]
 
 @secure()
 @description('JWT signing key (32+ characters). A random key is generated on every deployment when omitted.')
@@ -82,9 +90,7 @@ resource app 'Microsoft.App/containerApps@2024-03-01' = {
           bindingType: 'SniEnabled'
         }]
       }
-      secrets: [
-        { name: 'jwt-key', value: jwtKey }
-      ]
+      secrets: appSecrets
     }
     template: {
       containers: [
@@ -95,12 +101,12 @@ resource app 'Microsoft.App/containerApps@2024-03-01' = {
             cpu: json(cpu)
             memory: memory
           }
-          env: [
+          env: concat([
             // Trust X-Forwarded-For / X-Forwarded-Proto from the Container Apps ingress: real client IPs in
             // /api/echo and correct https URLs (e.g. the Swagger OAuth redirect).
             { name: 'ASPNETCORE_FORWARDEDHEADERS_ENABLED', value: 'true' }
             { name: 'Jwt__Key', secretRef: 'jwt-key' }
-          ]
+          ], proxyEnv)
           probes: [
             { type: 'Startup', httpGet: { path: '/api/health/live', port: 8080 }, initialDelaySeconds: 2, periodSeconds: 3, failureThreshold: 20 }
             { type: 'Liveness', httpGet: { path: '/api/health/live', port: 8080 }, periodSeconds: 30 }
