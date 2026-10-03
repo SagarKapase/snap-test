@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using snap_test.GraphQL;
+using snap_test.Helpers;
 using snap_test.Middleware;
 using snap_test.Swagger;
 using System.Text;
@@ -46,6 +47,8 @@ builder.Services.AddCors(options =>
 // Swagger / OpenAPI: document at /openapi/v1.json, UI at /swagger (see Swagger/SwaggerSetup.cs).
 builder.Services.AddApiBeeSwagger();
 builder.Services.AddHttpClient();
+// Guarded HttpClient for /api/Proxy/call: blocks private/internal destinations (Proxy:AllowPrivateNetworks to opt out locally).
+builder.Services.AddGuardedProxyClient(builder.Configuration);
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
