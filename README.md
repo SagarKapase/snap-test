@@ -1,6 +1,6 @@
 # TestingAPIs
 
-**Live at [testingapis.com](https://testingapis.com)** — interactive docs at [testingapis.com/swagger](https://testingapis.com/swagger).
+**API: [api.testingapis.com](https://api.testingapis.com)** — interactive docs at [api.testingapis.com/swagger](https://api.testingapis.com/swagger).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/SagarKapase/snap-test?include_prereleases)](https://github.com/SagarKapase/snap-test/releases)

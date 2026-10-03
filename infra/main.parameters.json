@@ -11,6 +11,10 @@
     "customDomains": {
       "value": [
         {
+          "name": "api.testingapis.com",
+          "certificateName": "mc-managedenviron-api-testingapis--0918"
+        },
+        {
           "name": "testingapis.com",
           "certificateName": "mc-managedenviron-testingapis-com-3563"
         },
