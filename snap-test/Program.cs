@@ -52,7 +52,9 @@ builder.Services.AddGuardedProxyClient(builder.Configuration);
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
-    .AddMutationType<Mutation>();
+    .AddMutationType<Mutation>()
+    // Hot Chocolate turns introspection off outside Development; keep it on so Postman, Insomnia etc. can load the schema.
+    .DisableIntrospection(false);
 
 // Fail fast at startup: a missing key would otherwise surface as a 500 on every request.
 var jwtKey = builder.Configuration["Jwt:Key"]
