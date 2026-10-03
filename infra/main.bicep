@@ -3,6 +3,9 @@
 //   az group create -n rg-apibee -l centralindia
 //   az deployment group create -g rg-apibee -f infra/main.bicep -p image=ghcr.io/sagarkapase/apibee:1.0.1
 //
+// To add the app to a Container Apps environment you already have (e.g. when the subscription allows only one
+// environment per region), pass its resource ID:  -p existingEnvironmentId=<environment resource id>
+//
 // The app keeps all data in memory, so it must run exactly ONE replica: with two, a record created on one
 // replica would be missing on the other. minReplicas = maxReplicas = 1 also means it never sleeps (no cold starts).
 
@@ -21,11 +24,16 @@ param cpu string = '0.25'
 @description('Memory per replica, matching cpu (0.5Gi for 0.25 vCPU, 1Gi for 0.5 vCPU, ...).')
 param memory string = '0.5Gi'
 
+@description('Resource ID of an existing Container Apps environment to deploy into. Leave empty to create a new one.')
+param existingEnvironmentId string = ''
+
+var createEnvironment = empty(existingEnvironmentId)
+
 @secure()
 @description('JWT signing key (32+ characters). A random key is generated on every deployment when omitted.')
 param jwtKey string = '${newGuid()}${newGuid()}'
 
-resource logs 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
+resource logs 'Microsoft.OperationalInsights/workspaces@2023-09-01' = if (createEnvironment) {
   name: '${name}-logs'
   location: location
   properties: {
@@ -35,7 +43,7 @@ resource logs 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
   }
 }
 
-resource env 'Microsoft.App/managedEnvironments@2024-03-01' = {
+resource env 'Microsoft.App/managedEnvironments@2024-03-01' = if (createEnvironment) {
   name: '${name}-env'
   location: location
   properties: {
@@ -53,7 +61,7 @@ resource app 'Microsoft.App/containerApps@2024-03-01' = {
   name: name
   location: location
   properties: {
-    managedEnvironmentId: env.id
+    managedEnvironmentId: createEnvironment ? env.id : existingEnvironmentId
     configuration: {
       activeRevisionsMode: 'Single'
       ingress: {
