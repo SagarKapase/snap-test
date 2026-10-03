@@ -176,3 +176,39 @@ jobs:
           push: true
           tags: ${{ env.TAGS }}
           build-args: VERSION=${{ env.VERSION }}
+
+  deploy-azure:
+    name: Deploy to Azure Container Apps
+    needs: [version, docker]
+    # Runs only for stable releases, and only once Azure is connected (repository variable AZURE_CLIENT_ID set).
+    if: github.event_name == 'push' && needs.version.outputs.prerelease == 'false' && vars.AZURE_CLIENT_ID != ''
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      id-token: write   # OpenID Connect sign-in to Azure: no stored Azure password
+      contents: read
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+      RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP || 'rg-apibee' }}
+      APP_NAME: ${{ vars.AZURE_CONTAINERAPP_NAME || 'apibee' }}
+    steps:
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Update container app image
+        shell: bash
+        run: |
+          az extension add --name containerapp --upgrade --only-show-errors
+          az containerapp update -n "$APP_NAME" -g "$RESOURCE_GROUP" \
+            --image "ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/apibee:$VERSION" --only-show-errors -o none
+
+      - name: Smoke test
+        shell: bash
+        run: |
+          FQDN=$(az containerapp show -n "$APP_NAME" -g "$RESOURCE_GROUP" --query properties.configuration.ingress.fqdn -o tsv)
+          for i in $(seq 1 30); do curl -fsS "https://$FQDN/api/health" && break; sleep 5; done
+          curl -fsS "https://$FQDN/api/health"
+          echo "Deployed $VERSION to https://$FQDN" >> "$GITHUB_STEP_SUMMARY"

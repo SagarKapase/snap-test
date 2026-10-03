@@ -42,6 +42,27 @@ docker run --rm -p 8080:8080 ghcr.io/sagarkapase/apibee:latest
 dotnet run --project snap-test --launch-profile http   # http://localhost:5251
 ```
 
+## Deploy to Azure (always on)
+
+[`infra/main.bicep`](infra/main.bicep) runs the published Docker image on Azure Container Apps with exactly one
+always-on replica (no sleeping, no cold starts), HTTPS and health checks. With the
+[Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli):
+
+```bash
+az login
+az provider register -n Microsoft.App --wait
+az provider register -n Microsoft.OperationalInsights --wait
+az group create -n rg-apibee -l centralindia
+az deployment group create -g rg-apibee -f infra/main.bicep -p image=ghcr.io/sagarkapase/apibee:latest
+```
+
+The last command prints the public URL. Keep the replica count at one: the API stores everything in memory,
+so a second replica would not see the first one's data.
+
+After the first deployment, every stable release can update Azure automatically: set the repository variables
+`AZURE_CLIENT_ID`, `AZURE_TENANT_ID` and `AZURE_SUBSCRIPTION_ID` for an identity that has a federated
+credential for `repo:SagarKapase/snap-test:environment:production` and Contributor access to the resource group.
+
 ## Where to look
 
 | URL | What |
@@ -59,8 +80,9 @@ Test credentials for every auth scheme are listed in Swagger and at `GET /api/au
 Everything here is for testing. All credentials are hardcoded and public, and the JWT signing key in
 `snap-test/appsettings.json` is a published test value. If you deploy this anywhere reachable by others, set your
 own key through the environment (`Jwt__Key=<at least 32 random characters>`) and do not rely on any of the demo
-credentials. `/api/Proxy/call` forwards requests to any URL from the server, so don't expose it on a network
-where that matters.
+credentials. `/api/Proxy/call` forwards requests from the server to public URLs; it refuses private, loopback,
+link-local and cloud-metadata addresses (also after redirects). Set `Proxy__AllowPrivateNetworks=true` only for
+local development.
 
 ## Releasing
 

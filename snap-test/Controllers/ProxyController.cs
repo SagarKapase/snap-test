@@ -13,17 +13,20 @@ namespace snap_test.Controllers
     public class ProxyController : ControllerBase
     {
         private readonly HttpClient _httpClient;
-        public ProxyController(HttpClient httpClient)
+        public ProxyController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            // Guarded client: refuses private, loopback, link-local and cloud-metadata addresses (see OutboundNetworkGuard).
+            _httpClient = httpClientFactory.CreateClient(OutboundNetworkGuard.HttpClientName);
         }
 
         /// <summary>Forward a request to an upstream URL and relay its response.</summary>
         /// <param name="data">endpointUrl (absolute http or https URL), methodName (GET, POST, ...) and an optional requestBody, sent as JSON except for GET and HEAD.</param>
-        /// <remarks>Returns 200 with the upstream status, statusText and raw body (as a string) whatever the upstream status was.</remarks>
+        /// <remarks>Returns 200 with the upstream status, statusText and raw body (as a string) whatever the upstream status was.
+        /// Destinations on private, loopback, link-local or cloud-platform addresses (including redirects to them) are refused.</remarks>
         /// <response code="200">Upstream status, statusText and body.</response>
         /// <response code="400">endpointUrl isn't an absolute http(s) URL, or methodName is missing.</response>
-        /// <response code="502">The upstream request failed or timed out.</response>
+        /// <response code="403">The destination resolves to a private or reserved network address.</response>
+        /// <response code="502">The upstream request failed or timed out (30 s).</response>
         [HttpPost("call")]
         public async Task<IActionResult> Execute([FromBody] ApiRequestData data)
         {
@@ -54,6 +57,10 @@ namespace snap_test.Controllers
                     StatusText = response.ReasonPhrase,
                     body = rawBody
                 });
+            }
+            catch (HttpRequestException ex) when (ex.InnerException is BlockedDestinationException blocked)
+            {
+                return StatusCode(403, ApiResponse.Error(403, blocked.Message));
             }
             catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException)
             {
